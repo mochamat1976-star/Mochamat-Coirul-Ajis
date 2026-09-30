@@ -1,0 +1,6 @@
+{
+  "name": "Ruang Belajar PPKn: Indonesia Sebagai Negara Hukum",
+  "description": "Media pembelajaran interaktif Pendidikan Pancasila & Kewarganegaraan materi Indonesia Sebagai Negara Hukum lengkap dengan doa, absensi, tujuan, apersepsi, materi interaktif, game visual kartun, refleksi, dan motivasi.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
