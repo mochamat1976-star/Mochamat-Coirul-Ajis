@@ -1,6 +1,8 @@
 {
-  "name": "Ruang Belajar PPKn: Indonesia Sebagai Negara Hukum",
-  "description": "Media pembelajaran interaktif Pendidikan Pancasila & Kewarganegaraan materi Indonesia Sebagai Negara Hukum lengkap dengan doa, absensi, tujuan, apersepsi, materi interaktif, game visual kartun, refleksi, dan motivasi.",
+  "name": "RPM PPKn: Indonesia Sebagai Negara Kesatuan",
+  "description": "Media pembelajaran interaktif Pendidikan Pancasila Kelas 8 SMP Negeri 5 Madiun materi Indonesia Sebagai Negara Kesatuan (UUD NRI 1945 Pasal 1 Ayat 1) oleh Mochamat Choirul Ajis, S.Pd.",
   "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
 }

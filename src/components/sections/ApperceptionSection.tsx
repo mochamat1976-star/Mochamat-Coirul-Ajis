@@ -1,41 +1,135 @@
 import React, { useState } from 'react';
-import { Lightbulb, AlertTriangle, ShieldCheck, ArrowRight, HelpCircle, Check, Sparkles } from 'lucide-react';
-import { APPERCEPTION_CASES } from '../../data/materialData';
-import { sound } from '../../utils/audio';
+import { Lightbulb, AlertTriangle, ShieldCheck, ArrowRight, HelpCircle, Check, Sparkles, MapPin, Globe, Compass } from 'lucide-react';
+import { APPERCEPTION_CASES, MODULE_INFO } from '../../data/materialData';
+import { sound, speakText } from '../../utils/audio';
+import { saveStudentSubmission } from '../../services/studentSubmissionStore';
 
 interface ApperceptionSectionProps {
   onComplete: () => void;
   onNext: () => void;
+  isTeacherMode?: boolean;
+  studentName?: string;
+  studentClass?: string;
 }
 
-export const ApperceptionSection: React.FC<ApperceptionSectionProps> = ({ onComplete, onNext }) => {
+export const ApperceptionSection: React.FC<ApperceptionSectionProps> = ({ onComplete, onNext, isTeacherMode, studentName = '', studentClass = '' }) => {
   const [activeCaseIndex, setActiveCaseIndex] = useState<number>(0);
   const [viewMode, setViewMode] = useState<'with' | 'without'>('without');
   const [selectedPoll, setSelectedPoll] = useState<number | null>(null);
+  const [selectedIsland, setSelectedIsland] = useState<string | null>('nusantara');
 
   const currentCase = APPERCEPTION_CASES[activeCaseIndex];
 
   const handleSelectPoll = (index: number) => {
     sound.playClick();
     setSelectedPoll(index);
+
+    const pollTexts = [
+      'Agar penguasa memiliki kewenangan bebas tanpa perlu dibatasi peraturan.',
+      'Agar seluruh warga negara terlindungi hak asasinya, ada kepastian hukum, dan keadilan tegak tanpa pandang bulu.',
+      'Agar hukum hanya berlaku bagi rakyat biasa sedangkan pejabat kebal hukum.'
+    ];
+
+    saveStudentSubmission(studentName || 'Peserta Didik Aktif', studentClass || 'Kelas VIII-A', prev => ({
+      ...prev,
+      aperceptionAnswer: {
+        question: 'Mengapa dalam UUD NRI 1945 Pasal 1 Ayat 3 ditegaskan Indonesia adalah Negara Hukum?',
+        selectedText: pollTexts[index] || '',
+        isCorrect: index === 1,
+        timestamp: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })
+      }
+    }));
+
     onComplete();
   };
+
+  const islands = [
+    { id: 'sumatera', name: 'Pulau Sumatera', info: 'Bumi Andalas, berbatasan langsung dengan Selat Malaka.', emoji: '🌿' },
+    { id: 'jawa', name: 'Pulau Jawa & Madiun', info: 'Pusat aktivitas nasional & letak SMP Negeri 5 Madiun.', emoji: '🏛️' },
+    { id: 'kalimantan', name: 'Pulau Kalimantan', info: 'Bumi Borneo, paru-paru dunia dan lokasi IKN Nusantara.', emoji: '🌳' },
+    { id: 'sulawesi', name: 'Pulau Sulawesi', info: 'Bumi Celebes, kekayaan maritim & kepulauan tropis.', emoji: '⛵' },
+    { id: 'papua', name: 'Pulau Papua & Merauke', info: 'Ujung timur NKRI, kaya sumber daya dan keindahan alam.', emoji: '🌄' }
+  ];
 
   return (
     <div className="space-y-8 animate-fadeIn max-w-5xl mx-auto">
       {/* Header */}
       <div className="text-center space-y-2">
-        <div className="inline-flex items-center gap-2 bg-amber-100 text-amber-900 px-3.5 py-1 rounded-full text-xs font-bold border border-amber-200">
-          <span>💡 Bagian 5 dari 9</span>
+        <div className="inline-flex items-center gap-2 bg-red-100 text-red-900 px-3.5 py-1 rounded-full text-xs font-bold border border-red-200">
+          <span>💡 Bagian 6 dari 10</span>
           <span>•</span>
-          <span>Apersepsi & Pemantik Nalar</span>
+          <span>Apersepsi & Peta Wilayah NKRI</span>
         </div>
         <h2 className="font-display text-2xl sm:text-4xl font-extrabold text-slate-900">
-          Apersepsi: Mengapa Kita Butuh Hukum?
+          Apersepsi: Mengapa Indonesia yang Begitu Luas Tetap Bersatu?
         </h2>
-        <p className="text-slate-600 text-sm sm:text-base max-w-xl mx-auto">
-          Bayangkan sejenak jika di dunia ini sama sekali tidak ada peraturan, undang-undang, atau polisi. Apa yang akan terjadi pada kehidupan kita?
+        <p className="text-slate-600 text-sm sm:text-base max-w-2xl mx-auto">
+          Dari Sabang sampai Merauke membentang lebih dari 17.000 pulau, ratusan suku, bahasa, dan adat istiadat. Mengapa kita tidak terpecah menjadi negara-negara kecil?
         </p>
+      </div>
+
+      {/* Teacher Mode Guide */}
+      {isTeacherMode && (
+        <div className="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-2xl shadow-sm text-sm text-amber-950 space-y-1">
+          <div className="font-bold flex items-center gap-2">
+            <span>👩‍🏫 Panduan Apersepsi Bermakna (Mode Guru):</span>
+          </div>
+          <p className="text-xs text-amber-900 leading-relaxed">
+            Gunakan peta kepulauan dan studi kasus komparasi untuk merangsang rasa ingin tahu siswa: <em>"Apa yang mengikat pulau-pulau yang terpisah lautan luas ini menjadi satu kesatuan?"</em> Kunci jawabannya terletak pada kesepakatan konstitusi Pasal 1 Ayat 1 UUD 1945, Sumpah Pemuda 1928, dan semboyan Bhinneka Tunggal Ika.
+          </p>
+        </div>
+      )}
+
+      {/* Interactive Digital Map of NKRI Exploration */}
+      <div className="bg-gradient-to-r from-red-900 via-slate-900 to-indigo-950 text-white rounded-3xl p-6 sm:p-8 shadow-xl border border-red-500/30">
+        <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+          <div className="flex items-center gap-2.5">
+            <Compass className="w-6 h-6 text-amber-400 animate-spin" style={{ animationDuration: '15s' }} />
+            <h3 className="font-display font-extrabold text-lg sm:text-xl text-white">
+              Peta Digital Nusantara: Sambung Menyambung Menjadi Satu
+            </h3>
+          </div>
+          <span className="text-xs bg-amber-400 text-slate-950 font-black px-3 py-1 rounded-full shadow">
+            Sabang ➔ Merauke
+          </span>
+        </div>
+
+        <p className="text-xs sm:text-sm text-slate-300 mb-4">
+          Klik pulau-pulau besar di bawah ini untuk melihat bagaimana keberagaman disatukan dalam satu kedaulatan:
+        </p>
+
+        {/* Islands Interactive Buttons */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5 mb-4">
+          {islands.map((island) => (
+            <button
+              key={island.id}
+              onClick={() => {
+                sound.playClick();
+                setSelectedIsland(island.id);
+                speakText(`${island.name}: ${island.info}`);
+              }}
+              className={`p-3 rounded-2xl text-left border transition-all cursor-pointer ${
+                selectedIsland === island.id
+                  ? 'bg-amber-400 text-slate-950 border-amber-300 font-bold shadow-lg scale-105'
+                  : 'bg-white/10 hover:bg-white/20 text-white border-white/10'
+              }`}
+            >
+              <div className="text-2xl mb-1">{island.emoji}</div>
+              <div className="font-extrabold text-xs">{island.name}</div>
+            </button>
+          ))}
+        </div>
+
+        {/* Selected Island Info Card */}
+        {selectedIsland && (
+          <div className="p-4 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 text-xs sm:text-sm text-amber-200 flex items-center gap-3">
+            <MapPin className="w-5 h-5 text-amber-400 shrink-0" />
+            <div>
+              <span className="font-bold text-white">Fokus Wilayah: </span>
+              {islands.find(i => i.id === selectedIsland)?.info || 'Wilayah NKRI membentang luas dalam satu ikatan Pancasila.'}
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Case Navigator Tabs */}
@@ -49,173 +143,155 @@ export const ApperceptionSection: React.FC<ApperceptionSectionProps> = ({ onComp
             }}
             className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-2 cursor-pointer ${
               activeCaseIndex === idx
-                ? 'bg-amber-500 text-slate-950 shadow-md ring-2 ring-amber-300'
+                ? 'bg-red-600 text-white shadow-md ring-2 ring-red-400'
                 : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-100'
             }`}
           >
-            <span>{idx === 0 ? '🚦' : idx === 1 ? '🍱' : '📱'}</span>
-            <span>{c.title.split(':')[0]}</span>
+            <span>{idx === 0 ? '🗺️' : '⚠️'}</span>
+            <span>{c.title}</span>
           </button>
         ))}
       </div>
 
-      {/* Comparison Simulation Card */}
-      <div className="bg-white rounded-3xl border border-slate-200 shadow-md overflow-hidden p-6 sm:p-8 space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-4">
+      {/* Main Interactive Comparison Card */}
+      <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-md space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-100">
           <div>
-            <span className="text-xs font-bold text-amber-600 uppercase tracking-wider">
-              Eksperimen Pemikiran: Kasus {activeCaseIndex + 1}
-            </span>
-            <h3 className="font-display font-bold text-xl text-slate-900">
+            <h3 className="font-display font-extrabold text-xl text-slate-900">
               {currentCase.title}
             </h3>
+            <p className="text-xs text-slate-500 mt-0.5">
+              Bandingkan dua kondisi: Ketika persatuan runtuh vs ketika kita bersatu teguh dalam NKRI
+            </p>
           </div>
 
-          {/* Toggle Button: With Law vs Without Law */}
-          <div className="inline-flex p-1 bg-slate-100 rounded-2xl border border-slate-200 self-start sm:self-auto">
+          {/* Toggle Button Group */}
+          <div className="flex bg-slate-100 p-1 rounded-2xl border border-slate-200 w-fit self-start sm:self-auto">
             <button
               onClick={() => {
                 sound.playWrong();
                 setViewMode('without');
               }}
-              className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer ${
+              className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition cursor-pointer flex items-center gap-1.5 ${
                 viewMode === 'without'
-                  ? 'bg-rose-600 text-white shadow-sm'
+                  ? 'bg-rose-500 text-white shadow-md'
                   : 'text-slate-600 hover:text-slate-900'
               }`}
             >
-              <AlertTriangle className="w-3.5 h-3.5" />
-              <span>Tanpa Aturan ❌</span>
+              <AlertTriangle className="w-4 h-4" />
+              <span>Tanpa Aturan Hukum</span>
             </button>
             <button
               onClick={() => {
                 sound.playSuccess();
                 setViewMode('with');
               }}
-              className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer ${
+              className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition cursor-pointer flex items-center gap-1.5 ${
                 viewMode === 'with'
-                  ? 'bg-emerald-600 text-white shadow-sm'
+                  ? 'bg-emerald-600 text-white shadow-md'
                   : 'text-slate-600 hover:text-slate-900'
               }`}
             >
-              <ShieldCheck className="w-3.5 h-3.5" />
-              <span>Dengan Hukum & Aturan ✅</span>
+              <ShieldCheck className="w-4 h-4" />
+              <span>Dengan Supremasi Hukum</span>
             </button>
           </div>
         </div>
 
-        {/* Dynamic Display based on Toggle */}
+        {/* Content Display based on View Mode */}
         {viewMode === 'without' ? (
-          <div className="bg-rose-50 border-2 border-rose-200 rounded-3xl p-6 sm:p-8 space-y-4 animate-fadeIn">
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-2xl bg-rose-200 text-rose-800 flex items-center justify-center text-2xl flex-shrink-0">
-                ⚠️
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-center bg-rose-50/70 border border-rose-200 p-6 rounded-3xl animate-fadeIn">
+            <div className="md:col-span-4 text-center">
+              <div className="w-24 h-24 sm:w-28 sm:h-28 mx-auto rounded-3xl bg-rose-100 border-2 border-rose-300 flex items-center justify-center text-5xl shadow-inner">
+                ⚡
               </div>
-              <div>
-                <h4 className="font-display font-bold text-lg text-rose-900">
-                  Kekacauan Ketika Tidak Ada Aturan (Hukum Rimba)
-                </h4>
-                <p className="text-xs text-rose-700">
-                  Siapa yang kuat menindas yang lemah; rasa takut merajalela setiap saat.
-                </p>
-              </div>
+              <span className="inline-block mt-3 px-3 py-1 bg-rose-200 text-rose-900 text-xs font-black rounded-full uppercase">
+                Kondisi Tanpa Kepastian Hukum (Hukum Rimba)
+              </span>
             </div>
 
-            <div className="p-4 bg-white/80 rounded-2xl border border-rose-100 space-y-2">
-              <p className="text-sm sm:text-base text-slate-800 leading-relaxed font-medium">
+            <div className="md:col-span-8 space-y-3">
+              <h4 className="font-display font-extrabold text-lg text-rose-950">
+                Gambaran Kekacauan & Ketidakadilan:
+              </h4>
+              <p className="text-sm text-rose-900 leading-relaxed font-medium">
                 {currentCase.withoutLaw.description}
               </p>
-              <div className="pt-2 border-t border-rose-100 flex items-center gap-2 text-xs font-bold text-rose-700">
-                <span>Dampak Nyata:</span>
+              <div className="p-3 bg-white/80 rounded-xl border border-rose-200 text-xs text-rose-800 font-semibold flex items-center gap-2">
+                <span>💥 Dampak:</span>
                 <span>{currentCase.withoutLaw.impact}</span>
               </div>
             </div>
-
-            <div className="text-center pt-2">
-              <button
-                onClick={() => {
-                  sound.playSuccess();
-                  setViewMode('with');
-                }}
-                className="text-xs font-bold text-rose-800 hover:text-rose-900 bg-rose-100 hover:bg-rose-200 px-4 py-2 rounded-xl transition inline-flex items-center gap-1.5 cursor-pointer"
-              >
-                <span>Lihat apa yang terjadi jika ada HUKUM yang melindungi ➔</span>
-              </button>
-            </div>
           </div>
         ) : (
-          <div className="bg-emerald-50 border-2 border-emerald-300 rounded-3xl p-6 sm:p-8 space-y-4 animate-fadeIn">
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-2xl bg-emerald-200 text-emerald-800 flex items-center justify-center text-2xl flex-shrink-0">
-                🛡️
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-center bg-emerald-50/70 border border-emerald-200 p-6 rounded-3xl animate-fadeIn">
+            <div className="md:col-span-4 text-center">
+              <div className="w-24 h-24 sm:w-28 sm:h-28 mx-auto rounded-3xl bg-emerald-100 border-2 border-emerald-300 flex items-center justify-center text-5xl shadow-inner">
+                ⚖️
               </div>
-              <div>
-                <h4 className="font-display font-bold text-lg text-emerald-900">
-                  Ketertiban & Keadilan Terwujud Berkat Hukum
-                </h4>
-                <p className="text-xs text-emerald-700">
-                  Setiap orang memiliki rasa aman, hak dihormati, dan kedamaian tercipta.
-                </p>
-              </div>
+              <span className="inline-block mt-3 px-3 py-1 bg-emerald-200 text-emerald-900 text-xs font-black rounded-full uppercase">
+                Kondisi Tertib & Terlindungi Hukum
+              </span>
             </div>
 
-            <div className="p-4 bg-white/80 rounded-2xl border border-emerald-100 space-y-2">
-              <p className="text-sm sm:text-base text-slate-800 leading-relaxed font-medium">
+            <div className="md:col-span-8 space-y-3">
+              <h4 className="font-display font-extrabold text-lg text-emerald-950">
+                Kedamaian & Kedaulatan Bersama:
+              </h4>
+              <p className="text-sm text-emerald-900 leading-relaxed font-medium">
                 {currentCase.withLaw.description}
               </p>
-              <div className="pt-2 border-t border-emerald-100 flex items-center gap-2 text-xs font-bold text-emerald-700">
-                <span>Dampak Nyata:</span>
+              <div className="p-3 bg-white/80 rounded-xl border border-emerald-200 text-xs text-emerald-800 font-semibold flex items-center gap-2">
+                <span>🛡️ Manfaat:</span>
                 <span>{currentCase.withLaw.impact}</span>
               </div>
-            </div>
-
-            <div className="p-3 bg-amber-50 border border-amber-200 rounded-2xl text-xs sm:text-sm text-amber-900 flex items-center gap-2 font-semibold">
-              <Sparkles className="w-4 h-4 text-amber-600 flex-shrink-0" />
-              <span>{currentCase.lesson}</span>
             </div>
           </div>
         )}
 
-        {/* Latin Maxim */}
-        <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 text-center">
-          <p className="font-serif italic text-base sm:text-lg text-slate-800 font-bold">
-            “Ubi societas ibi ius”
-          </p>
-          <p className="text-xs text-slate-500 mt-0.5">
-            Pepatah Hukum Klasik (Cicero): “Di mana ada masyarakat, di situ pasti ada hukum.”
-          </p>
+        {/* Key Takeaway Lesson */}
+        <div className="p-4 bg-amber-50 rounded-2xl border border-amber-200 flex items-start gap-3">
+          <Sparkles className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+          <div>
+            <span className="font-extrabold text-xs uppercase tracking-wider text-amber-900 block">
+              Hikmah Pembelajaran Apersepsi:
+            </span>
+            <p className="text-xs sm:text-sm font-bold text-amber-950 mt-0.5">
+              {currentCase.lesson}
+            </p>
+          </div>
         </div>
       </div>
 
       {/* Interactive Trigger Polling */}
       <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm space-y-5">
         <div className="flex items-center gap-2">
-          <HelpCircle className="w-5 h-5 text-amber-600" />
+          <HelpCircle className="w-5 h-5 text-red-600" />
           <h3 className="font-display font-bold text-lg text-slate-900">
-            Kuis Pemantik Apersepsi: Pendapatmu Penting!
+            Pertanyaan Pemantik RPM: Uji Nalar Kritis!
           </h3>
         </div>
 
         <p className="text-sm text-slate-700 font-medium">
-          “Menurut kamu, apa tujuan utama diciptakannya hukum di negara kita Indonesia?”
+          “Mengapa dalam UUD NRI 1945 Pasal 1 Ayat (3) ditegaskan bahwa Indonesia adalah Negara Hukum (Rechtsstaat), bukan negara kekuasaan (Machtsstaat)?”
         </p>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           {[
             {
-              text: 'Untuk menakut-nakuti dan menghukum orang sebanyak-banyaknya.',
+              text: 'Agar penguasa memiliki kewenangan bebas tanpa perlu dibatasi oleh peraturan perundang-undangan.',
               isCorrect: false,
-              feedback: 'Kurang tepat. Hukum bukan alat balas dendam atau rasa takut, melainkan sarana keteraturan dan keadilan bersama.'
+              feedback: 'Keliru! Negara hukum justru hadir untuk mencegah tirani dan kesewenang-wenangan penguasa.'
             },
             {
-              text: 'Menciptakan ketertiban, keadilan, dan melindungi hak setiap warga negara.',
+              text: 'Agar seluruh warga negara terlindungi hak asasinya, ada kepastian hukum, dan keadilan tegak tanpa pandang bulu.',
               isCorrect: true,
-              feedback: 'Tepat sekali! Hukum hadir sebagai pelindung martabat manusia dan penjaga ketenteraman hidup bermasyarakat.'
+              feedback: 'Tepat sekali! Rechtsstaat menjamin supremasi hukum, equality before the law, dan perlindungan martabat rakyat.'
             },
             {
-              text: 'Hanya untuk menguntungkan orang-orang tertentu yang berkuasa.',
+              text: 'Agar hukum hanya berlaku bagi rakyat biasa sedangkan pejabat memiliki kekebalan hukum khusus.',
               isCorrect: false,
-              feedback: 'Salah! Dalam negara hukum (Rechtsstaat), hukum berlaku bagi siapa saja tanpa pandang bulu (Equality Before the Law).'
+              feedback: 'Salah besar! Prinsip equality before the law menjamin semua warga sama kedudukannya di dalam hukum.'
             }
           ].map((item, idx) => (
             <button
@@ -253,7 +329,7 @@ export const ApperceptionSection: React.FC<ApperceptionSectionProps> = ({ onComp
             }}
             className="px-6 py-3 bg-red-600 hover:bg-red-700 text-white rounded-2xl font-bold text-sm sm:text-base shadow-md hover:shadow-lg transition flex items-center gap-2 cursor-pointer"
           >
-            <span>Lanjut ke Penjelasan Materi Inti</span>
+            <span>Lanjut ke Penjelasan Materi Negara Hukum</span>
             <ArrowRight className="w-4 h-4" />
           </button>
         </div>

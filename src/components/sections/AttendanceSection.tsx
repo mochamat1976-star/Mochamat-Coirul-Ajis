@@ -3,12 +3,14 @@ import { UserCheck, Users, Download, Printer, ArrowRight, Sparkles, Smile, Check
 import { AttendanceRecord } from '../../types';
 import { sound } from '../../utils/audio';
 import confetti from 'canvas-confetti';
+import { saveStudentSubmission } from '../../services/studentSubmissionStore';
 
 interface AttendanceSectionProps {
   onComplete: () => void;
   onNext: () => void;
   onStudentRecorded: (name: string, studentClass: string) => void;
   currentStudentName: string;
+  isTeacherMode?: boolean;
 }
 
 const STORAGE_KEY = 'ruang_belajar_ppkn_attendance';
@@ -25,7 +27,8 @@ export const AttendanceSection: React.FC<AttendanceSectionProps> = ({
   onComplete,
   onNext,
   onStudentRecorded,
-  currentStudentName
+  currentStudentName,
+  isTeacherMode
 }) => {
   const [name, setName] = useState<string>(currentStudentName || '');
   const [studentNumber, setStudentNumber] = useState<string>('01');
@@ -119,6 +122,20 @@ export const AttendanceSection: React.FC<AttendanceSectionProps> = ({
       // ignore
     }
 
+    // Save to centralized teacher-only store
+    saveStudentSubmission(name.trim(), className, prev => ({
+      ...prev,
+      studentName: name.trim(),
+      studentClass: className,
+      studentNumber,
+      attendance: {
+        status,
+        mood,
+        hope: hope.trim() || 'Semangat belajar Pancasila!',
+        timestamp: newRecord.timestamp
+      }
+    }));
+
     setIsSubmitted(true);
     onStudentRecorded(name.trim(), className);
     onComplete();
@@ -163,8 +180,8 @@ export const AttendanceSection: React.FC<AttendanceSectionProps> = ({
     <div className="space-y-8 animate-fadeIn max-w-5xl mx-auto">
       {/* Header */}
       <div className="text-center space-y-2">
-        <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-800 px-3.5 py-1 rounded-full text-xs font-bold border border-blue-200">
-          <span>📋 Bagian 3 dari 9</span>
+        <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-900 px-3.5 py-1 rounded-full text-xs font-bold border border-blue-200">
+          <span>📋 Bagian 3 dari 10</span>
           <span>•</span>
           <span>Presensi & Manajemen Kelas</span>
         </div>
@@ -175,6 +192,21 @@ export const AttendanceSection: React.FC<AttendanceSectionProps> = ({
           Tunjukkan kedisiplinan sebagai salah satu wujud nyata ketaatan terhadap aturan dan tata tertib sekolah!
         </p>
       </div>
+
+      {/* Teacher Mode Guide */}
+      {isTeacherMode && (
+        <div className="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-2xl shadow-sm text-sm text-amber-950 space-y-1">
+          <div className="font-bold flex items-center justify-between">
+            <span className="flex items-center gap-2">👩‍🏫 Manajemen Presensi Kelas (Mode Guru):</span>
+            <span className="text-xs bg-amber-200 text-amber-900 px-2.5 py-0.5 rounded-full font-bold">
+              Total Terdata: {stats.total} Siswa
+            </span>
+          </div>
+          <p className="text-xs text-amber-900 leading-relaxed">
+            Guru dapat memantau presensi dan mood kesiapan belajar peserta didik hari ini. Gunakan tombol <strong>"Ekspor CSV"</strong> di bawah untuk mengunduh rekap administrasi kelas.
+          </p>
+        </div>
+      )}
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Attendance Form */}

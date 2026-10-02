@@ -6,9 +6,10 @@ import { sound, speakText, stopSpeech } from '../../utils/audio';
 interface PrayerSectionProps {
   onComplete: () => void;
   onNext: () => void;
+  isTeacherMode?: boolean;
 }
 
-export const PrayerSection: React.FC<PrayerSectionProps> = ({ onComplete, onNext }) => {
+export const PrayerSection: React.FC<PrayerSectionProps> = ({ onComplete, onNext, isTeacherMode }) => {
   const [selectedPrayerId, setSelectedPrayerId] = useState<string>('islam');
   const [isSpeaking, setIsSpeaking] = useState<boolean>(false);
   const [hasPrayed, setHasPrayed] = useState<boolean>(false);
@@ -63,8 +64,8 @@ export const PrayerSection: React.FC<PrayerSectionProps> = ({ onComplete, onNext
     <div className="space-y-8 animate-fadeIn max-w-4xl mx-auto">
       {/* Section Header */}
       <div className="text-center space-y-2">
-        <div className="inline-flex items-center gap-2 bg-emerald-100 text-emerald-800 px-3.5 py-1 rounded-full text-xs font-bold border border-emerald-200">
-          <span>🤲 Bagian 2 dari 9</span>
+        <div className="inline-flex items-center gap-2 bg-emerald-100 text-emerald-900 px-3.5 py-1 rounded-full text-xs font-bold border border-emerald-200">
+          <span>🤲 Bagian 2 dari 10</span>
           <span>•</span>
           <span>Spiritual & Budi Pekerti</span>
         </div>
@@ -75,6 +76,18 @@ export const PrayerSection: React.FC<PrayerSectionProps> = ({ onComplete, onNext
           Sebagai insan beriman dan warga negara yang berketuhanan (Sila ke-1 Pancasila), marilah kita mengawali kegiatan belajar ini dengan memohon petunjuk dan keberkahan ilmu kepada Tuhan Yang Maha Esa.
         </p>
       </div>
+
+      {/* Teacher Mode Guide */}
+      {isTeacherMode && (
+        <div className="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-2xl shadow-sm text-sm text-amber-950 space-y-1">
+          <div className="font-bold flex items-center gap-2">
+            <span>👩‍🏫 Panduan Berdoa Kelas (Mode Guru):</span>
+          </div>
+          <p className="text-xs text-amber-900 leading-relaxed">
+            Guru dapat menunjuk ketua kelas memimpin doa atau memanfaatkan pemutar audio lantunan doa bersama dan timer hening 60 detik di bawah ini untuk menciptakan ketenangan spiritual sebelum memulai pembelajaran.
+          </p>
+        </div>
+      )}
 
       {/* Prayer Choice Tabs */}
       <div className="flex flex-wrap justify-center gap-2 sm:gap-3">

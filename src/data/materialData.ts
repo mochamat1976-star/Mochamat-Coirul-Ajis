@@ -1,4 +1,34 @@
-import { ApperceptionCase, LawCase, LearningObjective, SortItem } from '../types';
+import { ApperceptionCase, LawCase, LearningObjective, SortItem, GroupTeam, BoardCell, BuzzerQuestion, MysteryCard, WheelSegment, WheelChallenge } from '../types';
+
+export const MODULE_INFO = {
+  curriculum: 'Kurikulum Merdeka (Permendikdasmen No. 13 Tahun 2025)',
+  codeATP: 'SMP.D.PPKn.8.2',
+  title: 'Indonesia Sebagai Negara Hukum',
+  appTitle: 'Ruang Belajar Pendidikan Pancasila Kelas VIII',
+  subject: 'Pendidikan Pancasila',
+  phase: 'Fase D',
+  grade: 'Kelas VIII (Delapan) / Semester Ganjil',
+  school: 'SMP Negeri 5 Madiun',
+  author: 'Mochamat Choirul Ajis, S.Pd.',
+  role: 'Mahasiswa PPG Pendidikan Pancasila',
+  academicYear: '2026/2027',
+  timeAllocation: '2 x 40 Menit (1 Pertemuan)',
+  constitutionalArticle: 'UUD NRI Tahun 1945 Pasal 1 Ayat (3)',
+  constitutionalText: '“Negara Indonesia adalah negara hukum.”',
+  model: 'Problem Based Learning (PBL) & Deep Learning'
+};
+
+export const NATIONAL_ANTHEM = {
+  title: 'Dari Sabang Sampai Merauke',
+  composer: 'R. Soerarjo',
+  lyrics: [
+    'Dari Sabang sampai Merauke berjajar pulau-pulau,',
+    'Sambung menyambung menjadi satu, itulah Indonesia.',
+    'Indonesia tanah airku, aku berjanji padamu,',
+    'Menjunjung tanah airku, tanah airku Indonesia.'
+  ],
+  meaning: 'Menegaskan bahwa ribuan pulau yang terbentang luas dari Sabang di ujung barat hingga Merauke di ujung timur dipersatukan oleh satu hukum dan kedaulatan konstitusi Negara Republik Indonesia yang adil dan beradab.'
+};
 
 export const PRAYERS = [
   {
@@ -7,426 +37,212 @@ export const PRAYERS = [
     arabic: 'رَضِيتُ بِاللهِ رَبًّا، وَبِالإِسْلاَمِ دِينًا، وَبِمُحَمَّدٍ نَبِيًّا وَرَسُولاً، رَبِّ زِدْنِي عِلْمًا وَارْزُقْنِي فَهْمًا',
     latin: 'Rodhitu billahi robba, wabil islami dina, wabimuhammadin nabiyya warosula. Robbi zidnii \'ilman warzuqnii fahma.',
     meaning: 'Kami ridho Allah sebagai Tuhanku, Islam sebagai agamaku, dan Nabi Muhammad sebagai nabi dan rasulku. Ya Tuhanku, tambahkanlah kepadaku ilmu dan berilah aku karunia untuk memahaminya.',
-    adab: 'Duduk tegak, angkat kedua tangan, tundukkan pandangan, dan fokuskan hati mengharap keberkahan ilmu.'
+    adab: 'Duduk tegak, angkat kedua tangan, tundukkan pandangan, dan fokuskan hati memohon keberkahan ilmu dan tegaknya keadilan.'
   },
   {
     id: 'universal',
-    title: 'Doa Pelajar Pancasila (Universal / Bersama)',
+    title: 'Doa Pelajar Pancasila (Bersama / Universal)',
     arabic: 'Tuhan Yang Maha Esa, Sumber Segala Keadilan dan Kebijaksanaan',
-    latin: 'Doa Kebangsaan & Nilai Luhur Ketuhanan Yang Maha Esa',
-    meaning: 'Ya Tuhan Yang Maha Pengasih, berkahilah ruang belajar kami hari ini. Bukakanlah pikiran dan hati kami agar mampu memahami hukum dan keadilan, mendisiplinkan diri, mencintai tanah air, dan menjadi warga negara yang bertanggung jawab bagi Indonesia tercinta. Amin.',
-    adab: 'Satukan niat baik, bernapas tenang, dan bertekad menggunakan ilmu untuk kebaikan sesama.'
+    latin: 'Doa Kebangsaan Menguatkan Nilai Ketuhanan & Keadilan Sosial',
+    meaning: 'Ya Tuhan Yang Maha Adil dan Maha Bijaksana, berkahilah ruang belajar kami di SMP Negeri 5 Madiun hari ini. Terangilah akal dan hati nurani kami agar kami mampu memahami makna Indonesia sebagai negara hukum, menjunjung tinggi hak asasi sesama, serta menjadi insan yang jujur, disiplin, dan berintegritas bagi bangsa Indonesia. Amin.',
+    adab: 'Satukan niat mulia, bernapas tenang, dan bertekad menegakkan kebenaran antarteman.'
   },
   {
     id: 'christian',
     title: 'Doa Kristiani / Katolik',
     arabic: 'Dalam Nama Bapa, dan Putra, dan Roh Kudus',
-    latin: 'Doa Terang Roh Kudus dan Karunia Kebijaksanaan',
-    meaning: 'Bapa Surgawi, terima kasih atas anugerah kehidupan dan kesempatan belajar hari ini. Curahkanlah Roh Kebijaksanaan-Mu kepada kami agar kami memahami arti keadilan, hukum yang melindungi sesama, dan memiliki hati yang taat serta penuh kasih. Amin.',
-    adab: 'Melipat tangan, memusatkan pikiran pada terang kasih Tuhan Yang Maha Kasih.'
+    latin: 'Doa Terang Roh Kudus untuk Kebijaksanaan dan Ketertiban Hidup',
+    meaning: 'Bapa Surgawi yang penuh kasih dan keadilan, kami mengucap syukur atas kesempatan belajar hari ini. Berkatilah guru kami Pak Mochamat Choirul Ajis dan segenap teman sekelas kami, agar kami diberi hikmat untuk taat pada aturan yang benar, saling mengasihi, dan tidak menindas yang lemah. Amin.',
+    adab: 'Melipat tangan, memusatkan hati dalam kasih dan kebenaran Tuhan.'
   },
   {
     id: 'silent',
     title: 'Hening Cipta / Doa Menurut Keyakinan Diri',
-    arabic: 'Mengheningkan Cipta untuk Mengagungkan Sang Pencipta',
-    latin: 'Meditasi & Doa Pribadi Penuh Kedamaian',
-    meaning: 'Dalam keheningan ini, marilah kita bersyukur kepada Tuhan atas nikmat akal dan budi pekerti, memohon kemudahan dalam menuntut ilmu, dan mendoakan para pahlawan pejuang hukum serta bangsa Indonesia.',
-    adab: 'Tutup mata sejenak selama 30 detik, bernapas teratur, dan panjatkan harapan terbaikmu.'
+    arabic: 'Mengheningkan Cipta untuk Mengagungkan Sang Pencipta & Pendiri Bangsa',
+    latin: 'Refleksi Batin & Doa Khidmat untuk Keadilan Hukum Negeri',
+    meaning: 'Dalam keheningan ini, marilah kita bersyukur atas anugerah konstitusi negara hukum, memohon kemudahan dalam menyerap ilmu keadilan, dan berikrar menjadi pribadi yang tertib serta bertanggung jawab.',
+    adab: 'Tutup mata sejenak selama 30 detik, bernapas teratur, dan panjatkan niat terbaikmu.'
   }
 ];
 
 export const LEARNING_OBJECTIVES: LearningObjective[] = [
   {
-    id: 'obj-1',
+    id: 'tp-1',
     category: 'Kognitif',
-    title: 'Memahami Konsep Dasar Negara Hukum',
-    description: 'Menjelaskan makna Indonesia sebagai negara hukum berdasarkan Pasal 1 Ayat (3) UUD NRI Tahun 1945 serta membedakan konsep Rechtsstaat dan Rule of Law.',
-    indicator: 'Dapat menyebutkan bunyi pasal konstitusi dan menjelaskan 5 ciri utama negara hukum.'
+    title: 'Menganalisis Kedudukan Indonesia Sebagai Negara Hukum',
+    description: 'Menganalisis ketentuan UUD NRI Tahun 1945 Pasal 1 Ayat (3) bahwa Indonesia adalah negara hukum (Rechtsstaat) secara kritis dan komprehensif.',
+    indicator: 'Mampu menjelaskan makna Rechtsstaat vs Machtsstaat dan asas supremasi hukum dalam kehidupan bernegara.'
   },
   {
-    id: 'obj-2',
+    id: 'tp-2',
     category: 'Kognitif',
-    title: 'Mengenal Lembaga Penegak Hukum',
-    description: 'Mengidentifikasi peran dan wewenang lembaga penegak hukum di Indonesia (Kepolisian, Kejaksaan, Kehakiman/MA-MK, KPK, dan Advokat).',
-    indicator: 'Dapat menghubungkan tugas masing-masing lembaga dengan kasus penegakan keadilan.'
+    title: 'Mengidentifikasi Asas & Ciri Utama Negara Hukum',
+    description: 'Mengidentifikasi prinsip persamaan di depan hukum (equality before the law - Pasal 27 Ayat 1), asas legalitas, dan perlindungan hak asasi manusia.',
+    indicator: 'Mampu menguraikan ciri-ciri negara hukum Pancasila dan tata urutan peraturan perundang-undangan (UU No. 12 Tahun 2011).'
   },
   {
-    id: 'obj-3',
+    id: 'tp-3',
     category: 'Afektif',
-    title: 'Menumbuhkan Sikap Taat & Tertib Hukum',
-    description: 'Mengembangkan kesadaran moral bahwa hukum diciptakan untuk menciptakan keadilan, keamanan, dan perlindungan bagi semua warga tanpa diskriminasi.',
-    indicator: 'Menunjukkan komitmen mematuhi tata tertib sekolah, etika bermedia sosial, dan norma masyarakat.'
+    title: 'Mengevaluasi Peran Lembaga Penegak Hukum & Keadilan',
+    description: 'Mengevaluasi peran Kepolisian, Kejaksaan, Kehakiman, Mahkamah Konstitusi, dan KPK dalam menegakkan hukum secara adil dan tidak pandang bulu.',
+    indicator: 'Menunjukkan sikap hormat pada hukum, menolak korupsi, kecurangan akademik, dan ujaran kebencian.'
   },
   {
-    id: 'obj-4',
+    id: 'tp-4',
     category: 'Psikomotorik',
-    title: 'Menganalisis Perilaku Adil dalam Kehidupan',
-    description: 'Mampu membedakan tindakan taat hukum vs perbuatan melanggar hukum serta memberikan solusi adil pada studi kasus kehidupan nyata.',
-    indicator: 'Menyelesaikan simulasi peran Hakim Cilik dan membuat piagam komitmen diri sadar hukum.'
+    title: 'Menyelesaikan Simulasi Kasus Hukum & Budaya Tertib',
+    description: 'Merumuskan solusi berkeadilan atas studi kasus pelanggaran hukum di sekolah, masyarakat, dan media sosial melalui diskusi kelompok serta turnamen interaktif.',
+    indicator: 'Berhasil memecahkan simulasi kasus sengketa perundungan dan hak cipta dalam turnamen kelompok 30 menit.'
   }
 ];
 
 export const APPERCEPTION_CASES: ApperceptionCase[] = [
   {
-    id: 'traffic',
-    title: 'Kasus 1: Lampu Lalu Lintas di Perempatan Kota',
+    id: 'traffic-rule',
+    title: 'Studi Kasus 1: Perempatan Jalan Raya (Ada vs Tanpa Aturan Hukum)',
     withoutLaw: {
-      description: 'Semua kendaraan (mobil, motor, bus) saling serobot, tidak ada lampu merah, pengendara tanpa helm melaju cepat. Terjadi kemacetan total, keributan antar warga, dan kecelakaan beruntun!',
-      imagePrompt: 'Simulasi kekacauan tanpa aturan lalu lintas',
-      impact: 'Bahaya nyawa, kekacauan massal, saling menyalahkan.'
+      description: 'Lampu lalu lintas mati, tidak ada rambu dan marka jalan, aparat polisi absen. Semua pengendara saling serobot, mobil besar menindas motor, terjadi kemacetan total, keributan fisik, dan kecelakaan fatal.',
+      imagePrompt: 'Perempatan jalan raya semrawut tanpa rambu, hukum rimba berlaku',
+      impact: 'Hukum rimba (yang kuat menindas yang lemah), anarki sosial, rasa takut, dan kerugian jiwa serta materi bagi semua orang.'
     },
     withLaw: {
-      description: 'Lampu merah, kuning, dan hijau berfungsi tertib. Semua pengendara patuh berhenti di belakang garis zebra cross, memakai helm SNI, dan pejalan kaki menyeberang dengan aman dan selamat.',
-      imagePrompt: 'Simulasi ketertiban lalu lintas dengan aturan',
-      impact: 'Perjalanan lancar, nyawa terlindungi, masyarakat saling menghargai.'
+      description: 'Lampu lalu lintas menyala tertib, marka jalan ditaati, semua pengendara memakai helm dan sabuk pengaman. Pejabat maupun warga biasa antre bergantian sesuai sinyal lampu hijau/merah dengan diawasi kamera tilang elektronik.',
+      imagePrompt: 'Lalu lintas rapi, tertib, semua pengendara aman dan saling menghormati',
+      impact: 'Arus lalu lintas lancar, hak pejalan kaki terlindungi, keadilan terasa nyata karena hukum berlaku sama untuk semua orang.'
     },
-    lesson: 'Hukum lalu lintas dibuat BUKAN untuk menyusahkan kita, melainkan untuk MENJAGA KESELAMATAN & NYAWA semua orang!'
+    lesson: 'Ubi Societas Ibi Ius — Di mana ada masyarakat, di situ pasti ada hukum. Hukum hadir bukan untuk membatasi kebebasan, melainkan menjamin ketertiban dan keselamatan bersama!'
   },
   {
-    id: 'school-canteen',
-    title: 'Kasus 2: Antrean di Kantin Sekolah',
+    id: 'digital-justice',
+    title: 'Studi Kasus 2: Media Sosial & Kebebasan Berekspresi Beradab',
     withoutLaw: {
-      description: 'Siswa yang badannya lebih besar menyerobot antrean, makanan berebutan tumpah, siswa yang lebih kecil tidak kebagian makan dan menangis. Terjadi perkelahian.',
-      imagePrompt: 'Kantin kacau tanpa antrean',
-      impact: 'Ketidakadilan, yang kuat menindas yang lemah (hukum rimba).'
+      description: 'Dunia maya tanpa regulasi hukum. Orang bebas memfitnah, membuat akun palsu penyebar hoaks pemeras, mencuri data pribadi teman, dan melakukan cyberbullying tanpa ada rasa bersalah atau takut dihukum.',
+      imagePrompt: 'Layar gadget penuh ujaran kebencian, fitnah, dan kepanikan digital',
+      impact: 'Korban mengalami trauma mental berat, rusaknya nama baik, perpecahan sosial, dan hilangnya rasa aman di ruang digital.'
     },
     withLaw: {
-      description: 'Ada aturan antre bergantian sesuai kedatangan (First Come, First Served). Semua siswa menunggu dengan sabar, penjual melayani dengan tertib dan ramah.',
-      imagePrompt: 'Kantin tertib berbaris rapi',
-      impact: 'Rasa adil, nyaman, dan budaya saling menghargai hak teman.'
+      description: 'Terdapat regulasi perlindungan data pribadi dan penegakan hukum siber yang adil. Netizen beretika, saling mengapresiasi karya, dan aparat kepolisian siber menindak akun penipu secara transparan.',
+      imagePrompt: 'Ruang digital ramah, aman, kolaboratif, dan saling memajukan',
+      impact: 'Ruang internet menjadi sarana inovasi dan belajar yang aman, hak cipta terlindungi, dan keadilan dapat dituntut secara sah.'
     },
-    lesson: 'Hukum menjamin KESETARAAN: Orang kuat tidak boleh semena-mena terhadap yang lemah!'
-  },
-  {
-    id: 'social-media',
-    title: 'Kasus 3: Media Sosial & Internet',
-    withoutLaw: {
-      description: 'Orang bebas menyebarkan berita bohong (hoaks), menipu uang, menghina dan mempermalukan teman secara online (cyberbullying) tanpa ada sanksi apapun.',
-      imagePrompt: 'Dunia maya penuh kebencian dan penipuan',
-      impact: 'Korban depresi, perpecahan bangsa, hilangnya rasa percaya.'
-    },
-    withLaw: {
-      description: 'Ada regulasi hukum (UU ITE) dan etika digital: Siapa yang memfitnah atau menipu dapat diproses hukum. Ruang digital menjadi sarana edukasi, karya kreatif, dan silaturahmi positif.',
-      imagePrompt: 'Ruang siber aman dan produktif',
-      impact: 'Kebebasan berekspresi tetap terlindungi sekaligus menjaga kehormatan orang lain.'
-    },
-    lesson: 'Kebebasan kita dibatasi oleh hak dan rasa aman orang lain. Di situlah hukum hadir!'
+    lesson: 'Kebebasan di negara hukum adalah kebebasan yang bertanggung jawab dan dibatasi oleh hak asasi orang lain serta norma hukum yang sah!'
   }
 ];
 
-export const LAW_CONCEPTS = {
+export const LEGAL_STATE_CONCEPTS = {
   constitutionalBasis: {
     article: 'UUD NRI Tahun 1945 Pasal 1 Ayat (3)',
     text: '“Negara Indonesia adalah negara hukum.”',
-    meaning: 'Ketentuan ini menegaskan bahwa segala sendi kehidupan bermasyarakat, berbangsa, dan bernegara harus berlandaskan pada hukum yang adil, BUKAN atas dasar kekuasaan mutlak penguasa semata (Rule of Law, not Rule of Power).'
+    meaning: 'Ketentuan ini menegaskan bahwa segala sendi kehidupan bermasyarakat, berbangsa, dan bernegara harus didasarkan pada hukum yang berkeadilan, BUKAN atas kekuasaan sepihak penguasa (Rechtsstaat, bukan Machtsstaat).'
   },
   principles: [
     {
       title: 'Supremasi Hukum (Supremacy of Law)',
-      icon: 'Crown',
       tag: 'Hukum Tertinggi',
-      desc: 'Hukum memegang kedudukan paling tinggi dalam negara. Tidak ada satu pun individu, pejabat, atau penguasa yang berada di atas hukum.'
+      icon: 'Shield',
+      desc: 'Hukum menempati kedudukan tertinggi dalam tata kelola negara. Semua lembaga negara, pejabat pemerintah, maupun rakyat wajib tunduk pada hukum.'
     },
     {
-      title: 'Persamaan di Hadapan Hukum (Equality Before the Law)',
+      title: 'Persamaan di Depan Hukum (Equality Before the Law)',
+      tag: 'Pasal 27 Ayat (1)',
       icon: 'Scale',
-      tag: 'Tanpa Pandang Bulu',
-      desc: 'Semua warga negara berkedudukan sama di depan hukum. Baik pejabat, orang kaya, maupun rakyat biasa diperlakukan adil tanpa diskriminasi.'
+      desc: 'Semua warga negara bersamaan kedudukannya di dalam hukum dan pemerintahan tanpa ada pengecualian atau perlakuan istimewa bagi status sosial atau jabatan.'
     },
     {
-      title: 'Asas Legalitas (Principle of Legality)',
+      title: 'Asas Legalitas (Legality Principle)',
+      tag: 'Dasar Yuridis Sah',
       icon: 'BookOpen',
-      tag: 'Berdasarkan Peraturan',
-      desc: 'Segala tindakan pemerintah dan aparat harus didasarkan pada peraturan perundang-undangan tertulis yang sah dan jelas.'
+      desc: 'Setiap kebijakan pemerintah dan penindakan hukum harus bersandar pada peraturan perundang-undangan yang sah dan telah diundangkan sebelumnya.'
     },
     {
-      title: 'Peradilan yang Merdeka & Tak Memihak (Independent Judiciary)',
-      icon: 'ShieldCheck',
-      tag: 'Hakim Jujur & Adil',
-      desc: 'Lembaga peradilan bebas dari campur tangan pihak manapun (eksekutif, partai, uang, atau tekanan politik) dalam menegakkan vonis adil.'
+      title: 'Peradilan yang Bebas & Tidak Memihak (Independent Judiciary)',
+      tag: 'Kekuasaan Kehakiman',
+      icon: 'Landmark',
+      desc: 'Hakim memiliki kemerdekaan untuk memeriksa dan memutus perkara semata-mata demi kebenaran, keadilan, dan Ketuhanan Yang Maha Esa tanpa intervensi kekuasaan lain.'
     },
     {
-      title: 'Jaminan & Perlindungan Hak Asasi Manusia (HAM)',
-      icon: 'HeartHandshake',
-      tag: 'Hormati Harkat Manusia',
-      desc: 'Hukum wajib melindungi hak hidup, hak berpendapat, beragama, pendidikan, dan rasa aman bagi setiap warga Indonesia.'
+      title: 'Jaminan Perlindungan Hak Asasi Manusia (HAM)',
+      tag: 'Pasal 28A - 28J',
+      icon: 'Users',
+      desc: 'Negara hukum wajib melindungi hak dasar warga: hak hidup, hak bersuara, hak berpendidikan, serta hak atas rasa aman dari kesewenang-wenangan.'
+    }
+  ],
+  rechtsstaatVsMachtsstaat: [
+    {
+      aspect: 'Landasan Bertindak',
+      rechtsstaat: 'Hukum dan konstitusi tertulis yang adil (Rule of Law).',
+      machtsstaat: 'Kehendak bebas dan kekuasaan mutlak penguasa (Rule of Power).'
+    },
+    {
+      aspect: 'Kedudukan Warga',
+      rechtsstaat: 'Semua sama di hadapan hukum (Equality before the law).',
+      machtsstaat: 'Rakyat sebagai bawahan yang tunduk tanpa jaminan kepastian hukum.'
+    },
+    {
+      aspect: 'Peradilan & Pengawasan',
+      rechtsstaat: 'Peradilan independen dan adanya kontrol hukum terbuka.',
+      machtsstaat: 'Pengadilan dikendalikan penguasa demi melanggengkan kekuasaan.'
+    },
+    {
+      aspect: 'Tujuan Akhir',
+      rechtsstaat: 'Keadilan sosial, kepastian hukum, dan perlindungan martabat rakyat.',
+      machtsstaat: 'Mempertahankan hegemoni dan kepentingan elite penguasa.'
     }
   ],
   institutions: [
     {
       name: 'Kepolisian Negara RI (Polri)',
-      role: 'Penyelidik, Penyidik & Pengayom Masyarakat',
-      duties: 'Memelihara keamanan, ketertiban umum, menegakkan hukum, serta memberikan perlindungan, pengayoman, dan pelayanan kepada masyarakat.',
-      symbol: 'Rastra Sewakotama (Abdi Utama bagi Nusa dan Bangsa)',
-      color: 'from-amber-600 to-amber-800'
+      role: 'Memelihara ketertiban masyarakat, menegakkan hukum, serta mengayomi dan melayani warga (Pasal 30 Ayat 4 UUD 1945).',
+      icon: 'ShieldAlert'
     },
     {
       name: 'Kejaksaan Republik Indonesia',
-      role: 'Penuntut Umum & Eksekutor Putusan Pengadilan',
-      duties: 'Melakukan penuntutan perkara pidana di muka hakim sidang pengadilan dan melaksanakan penetapan hakim.',
-      symbol: 'Satya Adhi Wicaksana',
-      color: 'from-emerald-700 to-emerald-900'
+      role: 'Melakukan penuntutan perkara pidana di pengadilan dan melaksanakan penetapan serta putusan hakim yang berkekuatan hukum tetap.',
+      icon: 'Briefcase'
     },
     {
-      name: 'Lembaga Peradilan (MA & MK)',
-      role: 'Kekuasaan Kehakiman yang Merdeka',
-      duties: 'Mahkamah Agung mengadili perkara kasasi & mengawasi jalannya peradilan; Mahkamah Konstitusi menguji undang-undang terhadap UUD 1945.',
-      symbol: 'Timbangan Keadilan & Palu Sidang',
-      color: 'from-blue-700 to-indigo-900'
+      name: 'Mahkamah Agung (MA)',
+      role: 'Puncak peradilan umum, agama, militer, dan tata usaha negara, serta menguji peraturan di bawah undang-undang terhadap undang-undang.',
+      icon: 'Landmark'
     },
     {
-      name: 'KPK (Komisi Pemberantasan Korupsi)',
-      role: 'Pemberantas & Pencegah Tindak Pidana Korupsi',
-      duties: 'Mencegah, menyelidiki, dan menuntut tindak pidana korupsi yang merugikan keuangan negara demi integritas bangsa.',
-      symbol: 'Integritas, Independensi & Keadilan',
-      color: 'from-red-600 to-red-800'
+      name: 'Mahkamah Konstitusi (MK)',
+      role: 'Menguji undang-undang terhadap UUD 1945, memutus sengketa kewenangan lembaga negara, dan memutus perselisihan hasil pemilu.',
+      icon: 'Scale'
     },
     {
-      name: 'Advokat / Penasihat Hukum',
-      role: 'Pembela Hak Hukum & Pendamping Keadilan',
-      duties: 'Memberikan jasa hukum dan membela hak-hak tersangka atau terdakwa agar mendapat peradilan yang adil dan sesuai prosedur.',
-      symbol: 'Officium Nobile (Profesi Terhormat)',
-      color: 'from-purple-700 to-purple-900'
+      name: 'Komisi Pemberantasan Korupsi (KPK)',
+      role: 'Lembaga independen yang bertugas mencegah, mengawasi, dan menindak tindak pidana korupsi demi menyelamatkan keuangan negara.',
+      icon: 'Search'
     }
   ],
   hierarchy: [
-    { level: 1, name: 'UUD NRI Tahun 1945', note: 'Hukum dasar tertulis tertinggi di Indonesia', color: 'bg-red-600 text-white' },
-    { level: 2, name: 'Ketetapan MPR (Tap MPR)', note: 'Ketetapan Majelis Permusyawaratan Rakyat', color: 'bg-orange-500 text-white' },
-    { level: 3, name: 'Undang-Undang / Perppu', note: 'Dibuat DPR bersama Presiden / Peraturan Pemerintah Pengganti UU', color: 'bg-amber-500 text-slate-900' },
-    { level: 4, name: 'Peraturan Pemerintah (PP)', note: 'Ditetapkan Presiden untuk menjalankan UU', color: 'bg-emerald-600 text-white' },
-    { level: 5, name: 'Peraturan Presiden (Perpres)', note: 'Ditetapkan Presiden untuk materi yang diperintahkan UU', color: 'bg-teal-600 text-white' },
-    { level: 6, name: 'Peraturan Daerah Provinsi (Perda Prov)', note: 'Dibuat DPRD Provinsi bersama Gubernur', color: 'bg-blue-600 text-white' },
-    { level: 7, name: 'Peraturan Daerah Kab/Kota (Perda Kab/Kota)', note: 'Dibuat DPRD Kab/Kota bersama Bupati/Walikota', color: 'bg-indigo-600 text-white' }
-  ],
-  environments: [
-    {
-      domain: 'Lingkungan Keluarga',
-      icon: 'Home',
-      examples: [
-        'Saling menghormati hak setiap anggota keluarga',
-        'Mematuhi nasihat orang tua dan kesepakatan jam malam',
-        'Menyelesaikan perselisihan keluarga secara musyawarah tanpa kekerasan'
-      ]
-    },
-    {
-      domain: 'Lingkungan Sekolah',
-      icon: 'GraduationCap',
-      examples: [
-        'Mematuhi tata tertib sekolah dan hadir tepat waktu',
-        'Tidak mencontek, tidak membolos, dan tidak melakukan bullying/perundungan',
-        'Menghormati bapak/ibu guru dan menjaga fasilitas sarana belajar'
-      ]
-    },
-    {
-      domain: 'Lingkungan Masyarakat',
-      icon: 'Users',
-      examples: [
-        'Menghormati norma adat, kesopanan, dan kesusilaan',
-        'Ikut menjaga keamanan lingkungan (ronda/siskamling) dan tidak membuat gaduh',
-        'Membuang sampah pada tempatnya dan memelihara kebersihan fasilitas umum'
-      ]
-    },
-    {
-      domain: 'Lingkungan Berbangsa & Bernegara',
-      icon: 'Flag',
-      examples: [
-        'Mematuhi rambu lalu lintas dan memiliki SIM saat cukup umur',
-        'Membayar pajak tepat waktu demi pembangunan fasilitas publik',
-        'Menjaga persatuan dan tidak menyebarkan kebencian / kabar bohong (hoaks)'
-      ]
-    }
+    { level: 1, name: 'UUD NRI Tahun 1945', desc: 'Hukum dasar tertulis tertinggi negara Indonesia.' },
+    { level: 2, name: 'Ketetapan MPR (Tap MPR)', desc: 'Ketetapan majelis permusyawaratan rakyat yang masih berlaku.' },
+    { level: 3, name: 'Undang-Undang / Perppu', desc: 'Dibentuk DPR bersama Presiden untuk mengatur hajat hidup masyarakat.' },
+    { level: 4, name: 'Peraturan Pemerintah (PP)', desc: 'Ditetapkan Presiden untuk menjalankan Undang-Undang sebagaimana mestinya.' },
+    { level: 5, name: 'Peraturan Presiden (Perpres)', desc: 'Ditetapkan Presiden untuk menjalankan amanat PP atau kewenangan konstitusional.' },
+    { level: 6, name: 'Peraturan Daerah Provinsi', desc: 'Dibentuk DPRD Provinsi bersama Gubernur untuk kebutuhan daerah provinsi.' },
+    { level: 7, name: 'Peraturan Daerah Kabupaten/Kota', desc: 'Dibentuk DPRD Kab/Kota bersama Bupati/Wali Kota untuk wilayah setempat.' }
   ]
 };
 
-export const CARTOON_CASES: LawCase[] = [
-  {
-    id: 1,
-    title: 'Misteri Pengendara Cilik & Lampu Merah',
-    cartoonCharacter: 'Kak Adila (Hakim Cilik Indonesia)',
-    avatar: '👩‍⚖️',
-    scenario: 'Doni (13 tahun, siswa SMP) mengendarai sepeda motor tanpa helm dan menerobos lampu merah dengan alasan "buru-buru takut terlambat les sepak bola". Ia dihentikan oleh Pak Polisi Ramah di pos lalu lintas.',
-    location: 'Jalan Raya',
-    question: 'Sebagai Hakim Cilik, keputusan hukum apa yang paling adil dan mendidik untuk Doni?',
-    options: [
-      {
-        text: 'Membebaskan Doni karena kasihan dia masih anak sekolah dan les itu penting.',
-        isFair: false,
-        explanation: 'Keliru! Hukum lalu lintas berlaku sama untuk semua demi keselamatan nyawa. Membiarkan anak di bawah umur membawa motor berbahaya bagi dirinya dan orang lain.',
-        point: 0
-      },
-      {
-        text: 'Memberikan tilang dan teguran edukatif, memanggil orang tua Doni, dan mengingatkan bahwa anak di bawah umur belum memiliki SIM demi keselamatan nyawanya.',
-        isFair: true,
-        explanation: 'Tepat sekali! Asas Equality Before the Law & Kepastian Hukum: Penegakan aturan demi menjaga keselamatan jiwa Doni dan pengguna jalan lain.',
-        point: 20
-      },
-      {
-        text: 'Menyuruh Doni membayar uang damai langsung ke petugas tanpa surat tilang resmi.',
-        isFair: false,
-        explanation: 'Sangat salah! Ini adalah praktik suap/pungli yang melanggar hukum dan mencoreng integritas negara hukum.',
-        point: 0
-      }
-    ]
-  },
-  {
-    id: 2,
-    title: 'Kasus "Geng Keren" & Perundungan di Kantin',
-    cartoonCharacter: 'Pak Guru Budi (Penasihat Tata Tertib)',
-    avatar: '👨‍🏫',
-    scenario: 'Di jam istirahat, kelompok siswa "Geng Keren" mengancam adik kelas dan memaksa mereka memberikan uang saku. Jika menolak, adik kelas tersebut diancam akan disoraki dan dikucilkan.',
-    location: 'Sekolah',
-    question: 'Tindakan penegakan hukum dan aturan sekolah apa yang paling mencerminkan keadilan?',
-    options: [
-      {
-        text: 'Mengabaikannya karena itu cuma candaan masa remaja antar teman.',
-        isFair: false,
-        explanation: 'Keliru! Perundungan (bullying) dan pemerasan adalah pelanggaran serius terhadap hak asasi manusia dan tata tertib sekolah.',
-        point: 0
-      },
-      {
-        text: 'Membalas mengeroyok anggota Geng Keren agar mereka kapok.',
-        isFair: false,
-        explanation: 'Salah! Negara hukum melarang aksi "main hakim sendiri" (Eigenrichting). Masalah harus diselesaikan lewat prosedur hukum yang sah.',
-        point: 0
-      },
-      {
-        text: 'Melaporkan ke guru BK/Kepala Sekolah, memberi perlindungan bagi korban, serta menjatuhkan sanksi edukatif dan pembinaan disiplin bagi pelaku sesuai tata tertib.',
-        isFair: true,
-        explanation: 'Hebat! Kamu menerapkan asas peradilan yang adil, perlindungan martabat korban, dan penegakan tata tertib sekolah secara prosedural.',
-        point: 20
-      }
-    ]
-  },
-  {
-    id: 3,
-    title: 'Bocoran Kunci Jawaban Ujian Nasional',
-    cartoonCharacter: 'Siti (Ketua OSIS Jujur)',
-    avatar: '👧',
-    scenario: 'Sebelum ujian akhir, seorang siswa menyebarkan foto lembar kunci jawaban di grup WhatsApp kelas dan meminta teman-teman mengumpulkan uang 50 ribu rupiah per anak untuk membeli kunci jawaban tersebut.',
-    location: 'Sekolah',
-    question: 'Bagaimana seharusnya sikap pelajar Pancasila yang sadar hukum?',
-    options: [
-      {
-        text: 'Menolak keras kunci jawaban tersebut, mengerjakan ujian dengan jujur, dan melaporkan kecurangan kepada pihak sekolah.',
-        isFair: true,
-        explanation: 'Luar biasa! Kejujuran dan integritas adalah fondasi hukum. Berani membela kebenaran adalah sifat pahlawan hukum.',
-        point: 20
-      },
-      {
-        text: 'Ikut patungan uang agar nilai rapor kelas tinggi dan tidak dimarahi orang tua.',
-        isFair: false,
-        explanation: 'Salah! Kecurangan akademik melanggar norma kejujuran, hukum hak cipta, dan menciderai rasa keadilan teman yang belajar sungguh-sungguh.',
-        point: 0
-      },
-      {
-        text: 'Diam saja dan pura-pura tidak tahu meskipun tahu itu perbuatan salah.',
-        isFair: false,
-        explanation: 'Kurang tepat. Menjadi saksi kebenaran dan peduli terhadap ketertiban bersama adalah tanggung jawab moral warga negara yang baik.',
-        point: 5
-      }
-    ]
-  },
-  {
-    id: 4,
-    title: 'Limbah Plastik & Sungai Bersih Kampung Kita',
-    cartoonCharacter: 'Pak RT Slamet (Penggerak Desa Ramah)',
-    avatar: '👴',
-    scenario: 'Sebuah warung makan membuang kantong-kantong sampah sisa makanan dan minyak jelantah langsung ke aliran sungai di malam hari secara diam-diam. Akibatnya aliran air tersumbat dan bau tak sedap menyebar ke pemukiman.',
-    location: 'Lingkungan',
-    question: 'Langkah apa yang sesuai dengan peraturan perundang-undangan lingkungan hidup (UU Perlindungan Lingkungan)?',
-    options: [
-      {
-        text: 'Warga ramai-ramai merusak warung makan tersebut di malam hari.',
-        isFair: false,
-        explanation: 'Melanggar hukum! Perusakan properti adalah tindak pidana main hakim sendiri yang dilarang undang-undang.',
-        point: 0
-      },
-      {
-        text: 'Pengurus RT memberikan teguran tertulis berlandaskan Perda Ketertiban Lingkungan, meminta pemilik warung mengolah limbah secara benar, dan bila membangkang dilaporkan ke Satpol PP/Dinas Lingkungan Hidup.',
-        isFair: true,
-        explanation: 'Tepat sekali! Penegakan Peraturan Daerah (Perda) secara terukur, musyawarah terlebih dahulu, lalu penindakan hukum sah oleh aparat berwenang.',
-        point: 20
-      },
-      {
-        text: 'Membiarkannya karena sungai adalah tempat umum yang bebas dipakai siapa saja.',
-        isFair: false,
-        explanation: 'Keliru! Fasilitas alam dan lingkungan hidup adalah milik bersama yang wajib dilindungi oleh hukum demi generasi mendatang.',
-        point: 0
-      }
-    ]
-  },
-  {
-    id: 5,
-    title: 'Jempol Cerdas: Menghadapi Fitnah di Media Sosial',
-    cartoonCharacter: 'Rian (Duta Literasi Digital)',
-    avatar: '👦',
-    scenario: 'Akun anonim di Instagram memposting foto editan seorang siswi bernama Maya dengan narasi bohong yang memfitnahnya mencuri uang kas kelas. Postingan tersebut di-like ratusan orang.',
-    location: 'Media Sosial',
-    question: 'Berdasarkan hukum di Indonesia (UU ITE), tindakan apa yang harus diambil?',
-    options: [
-      {
-        text: 'Mengumpulkan tangkapan layar (screenshot) sebagai bukti hukum digital, melapor ke pihak sekolah dan kepolisian bagian siber (Cyber Crime), serta melaporkan akun tersebut ke platform.',
-        isFair: true,
-        explanation: 'Sempurna! Kamu memahami alat bukti elektronik yang sah dan jalur penegakan hukum UU ITE untuk memulihkan nama baik dan menghukum pelaku fitnah.',
-        point: 20
-      },
-      {
-        text: 'Ikut membagikan (repost) postingan tersebut ke grup keluarga agar semakin viral.',
-        isFair: false,
-        explanation: 'Berbahaya! Meneruskan konten fitnah (pencemaran nama baik) tanpa verifikasi dapat ikut dijerat pasal penyebaran informasi bohong / fitnah.',
-        point: 0
-      },
-      {
-        text: 'Membalas dengan membuat akun palsu baru dan menyebarkan aib orang lain.',
-        isFair: false,
-        explanation: 'Salah! Kejahatan tidak boleh dibalas dengan kejahatan. Gunakan instrumen hukum yang sah untuk mencari keadilan.',
-        point: 0
-      }
-    ]
-  },
-  {
-    id: 6,
-    title: 'Sengketa Hak Cipta Karya Seni & Plagiasi Bazaar',
-    cartoonCharacter: 'Bella (Ilustrator Muda Kreatif)',
-    avatar: '🎨',
-    scenario: 'Bella membuat ilustrasi digital orisinil bertema "Garuda Nusantara" untuk tugas pameran. Tanpa izin Bella, seorang peserta bazaar mengunduh gambar tersebut, menghapus tanda air (watermark) Bella, mencetaknya menjadi merchandise gantungan kunci dan baju kaos, lalu menjualnya demi keuntungan pribadi.',
-    location: 'Sekolah',
-    question: 'Berdasarkan UU Hak Cipta No. 28 Tahun 2014 dan perlindungan karya kreatif, apa vonis paling adil?',
-    options: [
-      {
-        text: 'Menghormati hak cipta moral dan ekonomi Bella: Penjual wajib menghentikan peredaran produk tanpa izin, meminta maaf, dan memberikan royalti/kompensasi yang disepakati kepada Bella.',
-        isFair: true,
-        explanation: 'Luar biasa adil! Hak Cipta menjamin perlindungan karya cipta intelektual bangsa. Menghargai hak cipta menumbuhkan iklim kreativitas yang bermartabat.',
-        point: 20
-      },
-      {
-        text: 'Membiarkannya karena apapun yang diunggah ke internet otomatis menjadi milik publik yang bebas dikomersilkan.',
-        isFair: false,
-        explanation: 'Keliru! Internet adalah media publikasi, bukan penghapus hak cipta. Mengambil karya orang tanpa izin untuk keuntungan komersial melanggar UU Hak Cipta.',
-        point: 0
-      },
-      {
-        text: 'Mengajak kawan-kawan memboikot dan merusak stan bazaar tersebut secara paksa.',
-        isFair: false,
-        explanation: 'Salah! Menegakkan keadilan tidak boleh dengan cara anarkis atau perusakan sarana.',
-        point: 0
-      }
-    ]
-  }
-];
+// Alias for backwards compatibility
+export const NKRI_CONCEPTS = LEGAL_STATE_CONCEPTS;
 
-export const DEFAULT_TEAMS: import('../types').GroupTeam[] = [
+// 6 Teams for classroom competition
+export const DEFAULT_TEAMS: GroupTeam[] = [
   {
     id: 1,
-    name: 'Kelompok 1: Satria Konstitusi',
+    name: 'Kelompok 1: Satria Konstitusi (Merah)',
     colorName: 'Merah Berani',
     bgColor: 'bg-rose-500',
     textColor: 'text-rose-600',
     borderColor: 'border-rose-400',
     badgeBg: 'bg-rose-50 text-rose-700 border-rose-200',
     ringColor: 'ring-rose-500',
-    avatar: '🛡️',
-    motto: 'UUD 1945 Panduan Nyata Kami!',
+    avatar: '⚖️',
+    motto: 'UUD 1945 Pasal 1 Ayat 3 Pedoman Hukum Kami!',
     score: 0,
     boardPosition: 1,
     casesSolved: 0,
@@ -434,15 +250,15 @@ export const DEFAULT_TEAMS: import('../types').GroupTeam[] = [
   },
   {
     id: 2,
-    name: 'Kelompok 2: Garda Keadilan',
-    colorName: 'Biru Samudra',
+    name: 'Kelompok 2: Garda Keadilan (Biru)',
+    colorName: 'Biru Wibawa',
     bgColor: 'bg-blue-600',
     textColor: 'text-blue-600',
     borderColor: 'border-blue-400',
     badgeBg: 'bg-blue-50 text-blue-700 border-blue-200',
     ringColor: 'ring-blue-500',
-    avatar: '⚖️',
-    motto: 'Keadilan Tegak Tanpa Pandang Bulu!',
+    avatar: '🛡️',
+    motto: 'Semua Sama di Hadapan Hukum Tanpa Pandang Bulu!',
     score: 0,
     boardPosition: 1,
     casesSolved: 0,
@@ -450,15 +266,15 @@ export const DEFAULT_TEAMS: import('../types').GroupTeam[] = [
   },
   {
     id: 3,
-    name: 'Kelompok 3: Laskar Bhinneka',
-    colorName: 'Kuning Emas',
+    name: 'Kelompok 3: Laskar Hakim Berintegritas (Kuning)',
+    colorName: 'Kuning Kejujuran',
     bgColor: 'bg-amber-500',
     textColor: 'text-amber-600',
     borderColor: 'border-amber-400',
     badgeBg: 'bg-amber-50 text-amber-700 border-amber-200',
     ringColor: 'ring-amber-500',
-    avatar: '🌟',
-    motto: 'Toleransi & Harmoni Hukum Bersatu!',
+    avatar: '🔨',
+    motto: 'Tegakkan Keadilan Walaupun Langit Runtuh!',
     score: 0,
     boardPosition: 1,
     casesSolved: 0,
@@ -466,15 +282,15 @@ export const DEFAULT_TEAMS: import('../types').GroupTeam[] = [
   },
   {
     id: 4,
-    name: 'Kelompok 4: Duta Hak Asasi',
-    colorName: 'Hijau Zamrud',
+    name: 'Kelompok 4: Duta Anti-Korupsi (Hijau)',
+    colorName: 'Hijau Integritas',
     bgColor: 'bg-emerald-600',
     textColor: 'text-emerald-600',
     borderColor: 'border-emerald-400',
     badgeBg: 'bg-emerald-50 text-emerald-700 border-emerald-200',
     ringColor: 'ring-emerald-500',
-    avatar: '🌱',
-    motto: 'Menjunjung Martabat dan HAM Setiap Insan!',
+    avatar: '🌿',
+    motto: 'Katakan Tidak pada Korupsi dan Kecurangan!',
     score: 0,
     boardPosition: 1,
     casesSolved: 0,
@@ -482,15 +298,15 @@ export const DEFAULT_TEAMS: import('../types').GroupTeam[] = [
   },
   {
     id: 5,
-    name: 'Kelompok 5: Punggawa Integritas',
-    colorName: 'Ungu Bangsawan',
+    name: 'Kelompok 5: Punggawa Anti-Bullying (Ungu)',
+    colorName: 'Ungu Peduli HAM',
     bgColor: 'bg-purple-600',
     textColor: 'text-purple-600',
     borderColor: 'border-purple-400',
     badgeBg: 'bg-purple-50 text-purple-700 border-purple-200',
     ringColor: 'ring-purple-500',
-    avatar: '💎',
-    motto: 'Jujur, Berani, Katakan Tidak Pada Korupsi!',
+    avatar: '🤝',
+    motto: 'Hargai Hak Asasi Teman, Stop Perundungan!',
     score: 0,
     boardPosition: 1,
     casesSolved: 0,
@@ -498,15 +314,15 @@ export const DEFAULT_TEAMS: import('../types').GroupTeam[] = [
   },
   {
     id: 6,
-    name: 'Kelompok 6: Pandu Tertib Bangsa',
-    colorName: 'Oranye Semangat',
+    name: 'Kelompok 6: Pandu Taat Norma Madiun (Oranye)',
+    colorName: 'Oranye Disiplin',
     bgColor: 'bg-orange-500',
     textColor: 'text-orange-600',
     borderColor: 'border-orange-400',
     badgeBg: 'bg-orange-50 text-orange-700 border-orange-200',
     ringColor: 'ring-orange-500',
-    avatar: '🚀',
-    motto: 'Disiplin Nyata untuk Indonesia Emas 2045!',
+    avatar: '🚦',
+    motto: 'Tertib Aturan Dimulai dari Diri Sendiri!',
     score: 0,
     boardPosition: 1,
     casesSolved: 0,
@@ -514,314 +330,420 @@ export const DEFAULT_TEAMS: import('../types').GroupTeam[] = [
   }
 ];
 
-export const BOARD_CELLS: import('../types').BoardCell[] = [
-  { index: 1, type: 'start', title: 'Gerbang Mulai', description: 'Pos Keberangkatan Pelajar Sadar Hukum Nusantara.', icon: '🚩', points: 0 },
-  { index: 2, type: 'normal', title: 'Helm SNI', description: 'Disiplin berkendara mengenakan helm standar keselamatan.', icon: '🪖', points: 10 },
-  { index: 3, type: 'normal', title: 'Zebra Cross', description: 'Menyeberang jalan di jalur penyeberangan pejalan kaki.', icon: '🚶', points: 10 },
-  { index: 4, type: 'ladder', title: '🪜 Tangga Keadilan', description: 'Membantu nenek menyeberang & mengembalikan dompet jatuh! Naik pesat ke Petak 9.', icon: '🪜', targetIndex: 9, points: 25, badge: 'Naik ke #9' },
-  { index: 5, type: 'quiz', title: '❓ Kuis Konstitusi', description: 'Pertanyaan: Apa bunyi resmi Pasal 1 Ayat 3 UUD NRI 1945?', icon: '❓', points: 15 },
-  { index: 6, type: 'normal', title: 'Tertib Pajak', description: 'Mendukung pembangunan jembatan & sekolah lewat taat pajak.', icon: '💳', points: 10 },
-  { index: 7, type: 'mystery', title: '🎁 Kotak Misteri', description: 'Buka kartu kejutan dan tantangan seru kelompok!', icon: '🎁', points: 10 },
-  { index: 8, type: 'slide', title: '⚠️ Perosotan Sanksi', description: 'Menerobos lampu merah dan membahayakan warga! Meluncur turun ke Petak 3.', icon: '🛝', targetIndex: 3, points: -10, badge: 'Mundur ke #3' },
-  { index: 9, type: 'normal', title: 'Pos Kamling Rukun', description: 'Menjaga kerukunan dan ronda malam bersama warga kampung.', icon: '🏮', points: 10 },
-  { index: 10, type: 'quiz', title: '❓ Kuis Equality', description: 'Pertanyaan: Apa maksud asas Equality Before the Law?', icon: '❓', points: 15 },
-  { index: 11, type: 'normal', title: 'Gotong Royong', description: 'Membersihkan selokan desa bersama warga tanpa membedakan suku.', icon: '🧹', points: 10 },
-  { index: 12, type: 'ladder', title: '🪜 Tangga Keadilan', description: 'Menolak keras uang sogokan dan suap calo! Melompat tinggi ke Petak 17.', icon: '🪜', targetIndex: 17, points: 25, badge: 'Naik ke #17' },
-  { index: 13, type: 'normal', title: 'Hormat Bendera', description: 'Menghayati upacara bendera Merah Putih dengan tertib & khidmat.', icon: '🇮🇩', points: 10 },
-  { index: 14, type: 'slide', title: '⚠️ Perosotan Sanksi', description: 'Ketahuan menyontek saat ulangan semester! Meluncur turun ke Petak 7.', icon: '🛝', targetIndex: 7, points: -10, badge: 'Mundur ke #7' },
-  { index: 15, type: 'mystery', title: '🎁 Kotak Misteri', description: 'Tantangan yel-yel keadilan atau bonus langkah kejutan!', icon: '🎁', points: 10 },
-  { index: 16, type: 'normal', title: 'Balai Musyawarah', description: 'Menyelesaikan perbedaan pendapat lewat mufakat damai.', icon: '🏛️', points: 10 },
-  { index: 17, type: 'normal', title: 'Taman HAM', description: 'Menghormati hak asasi setiap kawan tanpa diskriminasi.', icon: '🤝', points: 15 },
-  { index: 18, type: 'quiz', title: '❓ Kuis MA & MK', description: 'Pertanyaan: Apa wewenang utama Mahkamah Konstitusi?', icon: '❓', points: 15 },
-  { index: 19, type: 'slide', title: '⚠️ Perosotan Sanksi', description: 'Menyebarkan kabar bohong (hoaks) yang memfitnah orang lain! Merosot ke Petak 11.', icon: '🛝', targetIndex: 11, points: -15, badge: 'Mundur ke #11' },
-  { index: 20, type: 'ladder', title: '🪜 Tangga Keadilan', description: 'Berani membela dan melindungi kawan dari perundungan (bullying)! Terbang ke Petak 26.', icon: '🪜', targetIndex: 26, points: 30, badge: 'Naik ke #26' },
-  { index: 21, type: 'normal', title: 'Knalpot Tertib', description: 'Menggunakan knalpot standar demi ketenangan lingkungan istirahat.', icon: '🛵', points: 10 },
-  { index: 22, type: 'mystery', title: '🎁 Kotak Misteri', description: 'Kejutan Satria Hukum: Kesempatan duel poin antar kelompok!', icon: '🎁', points: 15 },
-  { index: 23, type: 'normal', title: 'Literasi Hukum', description: 'Membaca dan memahami hak serta kewajiban warga negara di perpustakaan.', icon: '📚', points: 10 },
-  { index: 24, type: 'quiz', title: '❓ Kuis Hierarki', description: 'Pertanyaan: Apa peraturan perundang-undangan tertinggi di Indonesia?', icon: '❓', points: 15 },
-  { index: 25, type: 'slide', title: '⚠️ Perosotan Sanksi', description: 'Mencoret-coret halte bus kota dan merusak fasilitas umum! Terlempar ke Petak 16.', icon: '🛝', targetIndex: 16, points: -15, badge: 'Mundur ke #16' },
-  { index: 26, type: 'normal', title: 'Kantin Kejujuran', description: 'Membayar dan mengambil kembalian sendiri dengan penuh amanah.', icon: '🧁', points: 15 },
-  { index: 27, type: 'normal', title: 'Gedung MK & MA', description: 'Pilar tegaknya keadilan dan penjaga marwah konstitusi bangsa.', icon: '⚖️', points: 15 },
-  { index: 28, type: 'mystery', title: '🎁 Kotak Misteri', description: 'Kartu Emas Konstitusi: Poin ganda bagi kelompok paling kompak!', icon: '🎁', points: 20 },
-  { index: 29, type: 'normal', title: 'Ikrar Integritas', description: 'Janji suci pemuda menjunjung tinggi kebenaran dan hukum.', icon: '📜', points: 20 },
-  { index: 30, type: 'finish', title: '🏆 Istana Keadilan', description: 'Selamat! Mencapai puncak kejayaan Indonesia sebagai Negara Hukum Sejati!', icon: '👑', points: 50, badge: 'FINISH!' }
+// 8 Dynamic Segments for Roda Putar Keadilan (Spinning Wheel of Justice)
+export const WHEEL_SEGMENTS: WheelSegment[] = [
+  { id: 0, label: 'Misi Detektif', icon: '🔍', color: '#EF4444', points: 25, type: 'case' },
+  { id: 1, label: 'Pasal 1 Ayat 3', icon: '📜', color: '#F59E0B', points: 20, type: 'constitution' },
+  { id: 2, label: 'Putusan Hakim', icon: '⚖️', color: '#10B981', points: 30, type: 'court' },
+  { id: 3, label: 'Penegak Hukum', icon: '🏛️', color: '#3B82F6', points: 20, type: 'institution' },
+  { id: 4, label: 'Kuis Kilat', icon: '💡', color: '#8B5CF6', points: 15, type: 'quick' },
+  { id: 5, label: 'Lindungi HAM', icon: '🛡️', color: '#EC4899', points: 25, type: 'protection' },
+  { id: 6, label: 'Bonus Berkah', icon: '🎁', color: '#14B8A6', points: 20, type: 'surprise' },
+  { id: 7, label: 'Hakim Agung', icon: '👑', color: '#D97706', points: 40, type: 'grand' }
 ];
 
-export const BUZZER_QUESTIONS: import('../types').BuzzerQuestion[] = [
+export const WHEEL_CHALLENGES: WheelChallenge[] = [
+  {
+    id: 1,
+    segmentId: 0,
+    title: 'Misi Detektif: Kasus Penemuan Dompet di Perpustakaan',
+    category: 'Analisis Kasus Nyata',
+    scenario: 'Siswa A dituduh mencuri dompet karena rekaman CCTV menunjukkan ia sempat memegang dompet yang tertinggal di meja perpustakaan. Namun ia mengaku hanya berniat membawanya ke meja guru pustakawan.',
+    question: 'Berdasarkan asas hukum "Presumption of Innocence" (Praduga Tak Bersalah), apa sikap yang paling benar?',
+    options: [
+      'Langsung menyebarkan foto Siswa A di grup medsos kelas sebagai pencuri.',
+      'Menganggap Siswa A belum tentu bersalah sampai ada bukti sah dan melakukan klarifikasi bersama guru BK.',
+      'Meminta Siswa A dihukum skorsing sebelum mendengarkan keterangannya.',
+      'Membiarkan begitu saja tanpa ada penyerahan dompet kepada pemiliknya.'
+    ],
+    correctIndex: 1,
+    explanation: 'Benar! Di negara hukum berlaku asas praduga tak bersalah (presumption of innocence): seseorang tidak boleh dianggap bersalah sebelum terbukti secara sah dan meyakinkan.',
+    rewardPoints: 25
+  },
+  {
+    id: 2,
+    segmentId: 1,
+    title: 'Tantangan Pasal Konstitusi: Makna Pasal 1 Ayat 3',
+    category: 'Landasan Yuridis',
+    scenario: 'UUD NRI 1945 Pasal 1 Ayat (3) berbunyi tegas: "Negara Indonesia adalah negara hukum."',
+    question: 'Apa implikasi hukum tertinggi dari bunyi pasal tersebut terhadap penyelenggaraan negara?',
+    options: [
+      'Presiden berhak mengubah undang-undang secara sepihak tanpa persetujuan DPR.',
+      'Segala kebijakan penguasa dan perilaku warga negara harus berlandaskan hukum yang sah dan adil.',
+      'Hanya rakyat kecil yang wajib mematuhi peraturan daerah.',
+      'Hukum adat tidak boleh dihormati sama sekali di seluruh wilayah nusantara.'
+    ],
+    correctIndex: 1,
+    explanation: 'Tepat sekali! Negara hukum (Rechtsstaat) berarti kekuasaan diatur dan dibatasi oleh hukum, mencegah kesewenang-wenangan penguasa (Machtsstaat).',
+    rewardPoints: 20
+  },
+  {
+    id: 3,
+    segmentId: 2,
+    title: 'Duel Putusan Hakim: Kasus Pelanggaran Lampu Merah Pejabat',
+    category: 'Persamaan di Depan Hukum',
+    scenario: 'Sebuah mobil dinas berplat istimewa menerobos lampu merah saat tidak sedang dalam tugas darurat resmi. Pengendara motor di belakangnya juga ikut menerobos karena melihat mobil tersebut tidak ditegur.',
+    question: 'Berdasarkan asas Equality Before the Law (Pasal 27 Ayat 1), tindakan adil polisi lalu lintas adalah:',
+    options: [
+      'Hanya menilang pengendara motor karena jabatannya lebih rendah.',
+      'Membiarkan keduanya karena plat mobil dinas memiliki kekebalan mutlak.',
+      'Menindak tegas dan menilang kedua pelanggar secara adil sesuai ketentuan UU Lalu Lintas.',
+      'Meminta maaf kepada pejabat dan meminta uang damai tanpa surat tilang.'
+    ],
+    correctIndex: 2,
+    explanation: 'Hebat! Pasal 27 Ayat (1) menegaskan bahwa segala warga negara bersamaan kedudukannya di dalam hukum dan pemerintahan tanpa diskriminasi.',
+    rewardPoints: 30
+  },
+  {
+    id: 4,
+    segmentId: 3,
+    title: 'Lembaga Penegak Hukum: Uji Materi Undang-Undang',
+    category: 'Struktur Lembaga Negara',
+    scenario: 'Masyarakat merasa sebuah Undang-Undang yang baru disahkan melanggar hak-hak dasar konstitusi yang diatur dalam UUD 1945.',
+    question: 'Lembaga peradilan manakah yang berwenang menguji undang-undang terhadap UUD 1945?',
+    options: [
+      'Mahkamah Agung (MA)',
+      'Mahkamah Konstitusi (MK)',
+      'Komisi Yudisial (KY)',
+      'Kejaksaan Agung'
+    ],
+    correctIndex: 1,
+    explanation: 'Tepat! Mahkamah Konstitusi (MK) berwenang menguji konstitusionalitas Undang-Undang terhadap Undang-Undang Dasar Negara Republik Indonesia Tahun 1945.',
+    rewardPoints: 20
+  },
+  {
+    id: 5,
+    segmentId: 4,
+    title: 'Kuis Kilat: Asas Legalitas Hukum Pidana',
+    category: 'Konsep Hukum Dasar',
+    scenario: 'Pepatah hukum Romawi: "Nullum delictum nulla poena sine praevia lege poenali".',
+    question: 'Apa arti dari asas legalitas tersebut dalam sistem hukum Indonesia?',
+    options: [
+      'Suatu perbuatan tidak dapat dihukum kecuali atas kekuatan aturan pidana yang sudah ada sebelumnya.',
+      'Hukum boleh dibuat berlaku surut untuk menghukum musuh politik.',
+      'Setiap orang yang bersalah langsung dihukum tanpa melalui persidangan.',
+      'Hakim boleh menciptakan hukuman baru sesuka hati tanpa dasar undang-undang.'
+    ],
+    correctIndex: 0,
+    explanation: 'Sempurna! Asas legalitas (Pasal 1 Ayat 1 KUHP) menjamin kepastian hukum: perbuatan hanya dapat dipidana jika telah ada undang-undangnya terlebih dahulu.',
+    rewardPoints: 15
+  },
+  {
+    id: 6,
+    segmentId: 5,
+    title: 'Lindungi HAM: Solusi Bijak Menghentikan Cyberbullying',
+    category: 'Perlindungan Hak Asasi Teman',
+    scenario: 'Seorang siswa menjadi korban editan foto bernada menghina di story media sosial teman sekelasnya hingga ia malu masuk sekolah.',
+    question: 'Tindakan kelompok kalian yang paling mencerminkan penegakan hukum berkeadilan restoratif di sekolah adalah:',
+    options: [
+      'Membalas dengan mengedit foto pelaku agar dia merasakan hal yang sama.',
+      'Mengajak teman lain mendiamkan dan mengucilkan korban perundungan.',
+      'Melaporkan bukti tangkapan layar kepada Guru BK/Pamong dan mendampingi korban dengan empati.',
+      'Menertawakan postingan tersebut karena dianggap candaan wajar remaja.'
+    ],
+    correctIndex: 2,
+    explanation: 'Tepat! Menjaga martabat orang lain adalah amanat HAM (Pasal 28G UUD 1945) dan undang-undang perlindungan anak serta UU ITE.',
+    rewardPoints: 25
+  },
+  {
+    id: 7,
+    segmentId: 6,
+    title: 'Kartu Berkah Integritas: Bonus Keberuntungan Kelompok',
+    category: 'Apresiasi Karakter Pelajar',
+    scenario: 'Kelompok kalian selalu menunjukkan kekompakan, mendengarkan argumen teman, dan menjunjung musyawarah mufakat.',
+    question: 'Nilai Pancasila manakah yang paling mencerminkan musyawarah dalam permusyawaratan/perwakilan?',
+    options: [
+      'Sila ke-1 (Ketuhanan)',
+      'Sila ke-2 (Kemanusiaan)',
+      'Sila ke-4 (Kerakyatan yang Dipimpin oleh Hikmat Kebijaksanaan)',
+      'Sila ke-5 (Keadilan Sosial)'
+    ],
+    correctIndex: 2,
+    explanation: 'Hebat! Sila ke-4 mengajarkan penyelesaian masalah melalui musyawarah mufakat demi kebaikan bersama.',
+    rewardPoints: 20
+  },
+  {
+    id: 8,
+    segmentId: 7,
+    title: 'Misi Hakim Agung: Hierarki Peraturan Perundang-undangan',
+    category: 'Tantangan Emas Regulasi',
+    scenario: 'Berdasarkan UU No. 12 Tahun 2011, jika ada Peraturan Daerah (Perda) yang bertentangan dengan Undang-Undang di atasnya, peraturan tersebut dinyatakan batal demi hukum.',
+    question: 'Lembaga yang berwenang melakukan uji materiil Perda terhadap Undang-Undang adalah:',
+    options: [
+      'Mahkamah Agung (MA)',
+      'Komisi Pemberantasan Korupsi (KPK)',
+      'DPRD Tingkat Kabupaten',
+      'Menteri Koordinator Politik dan Keamanan'
+    ],
+    correctIndex: 0,
+    explanation: 'Luar biasa! Mahkamah Agung berwenang menguji peraturan perundang-undangan di bawah undang-undang terhadap undang-undang.',
+    rewardPoints: 40
+  }
+];
+
+// Fallback BOARD_CELLS so any legacy reference doesn't error
+export const BOARD_CELLS: BoardCell[] = [
+  { index: 1, type: 'start', title: 'Mulai Sidang', description: 'Titik awal perjalanan keadilan.', icon: '⚖️' },
+  { index: 2, type: 'normal', title: 'Pasal 1 Ayat 3', description: 'Indonesia adalah negara hukum.', icon: '📜' }
+];
+
+export const MYSTERY_CARDS: MysteryCard[] = [
+  { id: 1, title: 'Kejujuran Berbuah Manis', icon: '🌟', description: 'Kelompok menjunjung transparansi data.', actionText: 'Maju & Bonus', pointsDelta: 20, stepsDelta: 2 }
+];
+
+// Buzzer Questions for Arena 2
+export const BUZZER_QUESTIONS: BuzzerQuestion[] = [
   {
     id: 1,
     category: 'Landasan Konstitusi',
-    question: 'Berdasarkan UUD NRI 1945 Pasal 1 Ayat (3), apakah bentuk kedaulatan negara Indonesia?',
-    options: ['Negara Kekuasaan Mutlak (Machstaat)', 'Negara Hukum (Rechtsstaat)', 'Negara Militer Tunggal', 'Negara Tanpa Peraturan Tertulis'],
-    correctAnswer: 1,
-    explanation: 'Pasal 1 Ayat (3) berbunyi tegas: "Negara Indonesia adalah negara hukum", bukan negara berdasarkan kekuasaan belaka.',
+    question: 'Pasal dan ayat berapakah dalam UUD NRI 1945 yang secara eksplisit menyatakan bahwa "Negara Indonesia adalah negara hukum"?',
+    options: ['Pasal 1 Ayat (1)', 'Pasal 1 Ayat (2)', 'Pasal 1 Ayat (3)', 'Pasal 2 Ayat (1)'],
+    correctAnswer: 2,
+    explanation: 'Pasal 1 Ayat (3) UUD NRI 1945 menyatakan dengan tegas: "Negara Indonesia adalah negara hukum."',
     points: 20
   },
   {
     id: 2,
     category: 'Asas Hukum',
-    question: 'Prinsip yang menyatakan bahwa "semua orang berkedudukan setara di hadapan hukum tanpa diskriminasi" disebut...',
-    options: ['Supremacy of Law', 'Equality Before the Law', 'Presumption of Innocence', 'Habeas Corpus'],
+    question: 'Asas yang menyatakan bahwa semua orang memiliki kedudukan yang setara dan sama di depan hukum tanpa diskriminasi disebut...',
+    options: ['Presumption of Innocence', 'Equality Before the Law', 'Rule of Power', 'Lex Superior Derogat Legi Inferiori'],
     correctAnswer: 1,
-    explanation: 'Equality Before the Law menjamin bahwa siapapun (rakyat, pejabat, konglomerat) diperlakukan adil dan setara di depan hukum.',
+    explanation: 'Equality Before the Law adalah prinsip persamaan setiap warga negara di hadapan hukum (Pasal 27 Ayat 1 UUD 1945).',
     points: 20
   },
   {
     id: 3,
-    category: 'Hierarki Peraturan',
-    question: 'Berdasarkan UU No. 12 Tahun 2011, peraturan perundang-undangan dengan tingkatan tertinggi di Indonesia adalah...',
-    options: ['Undang-Undang (UU)', 'Peraturan Presiden (Perpres)', 'UUD NRI Tahun 1945', 'Ketetapan MPR'],
-    correctAnswer: 2,
-    explanation: 'UUD NRI 1945 adalah hukum dasar tertulis tertinggi dan menjadi acuan bagi seluruh peraturan di bawahnya.',
+    category: 'Konsep Negara Hukum',
+    question: 'Istilah negara hukum yang dianut Indonesia berasal dari konsep Eropa Kontinental yang disebut...',
+    options: ['Machtsstaat', 'Rechtsstaat', 'Monarki Absolut', 'Oligarki'],
+    correctAnswer: 1,
+    explanation: 'Indonesia menganut paham Rechtsstaat (negara hukum), bukan Machtsstaat (negara kekuasaan).',
     points: 20
   },
   {
     id: 4,
-    category: 'Lembaga Penegak Hukum',
-    question: 'Lembaga yang bertugas melakukan penuntutan perkara pidana di muka sidang pengadilan adalah...',
-    options: ['Kepolisian Negara RI', 'Kejaksaan Republik Indonesia', 'Mahkamah Konstitusi', 'Komisi Yudisial'],
-    correctAnswer: 1,
-    explanation: 'Jaksa pada Kejaksaan RI bertindak sebagai penuntut umum yang membacakan dakwaan dan tuntutan hukum di pengadilan.',
+    category: 'Lembaga Peradilan',
+    question: 'Lembaga yang memegang kekuasaan kehakiman tertinggi untuk mengadili kasasi dan menguji peraturan di bawah undang-undang adalah...',
+    options: ['Komisi Yudisial', 'Mahkamah Konstitusi', 'Mahkamah Agung', 'Kejaksaan Agung'],
+    correctAnswer: 2,
+    explanation: 'Mahkamah Agung (MA) adalah pengadilan tertinggi di Indonesia (Pasal 24A UUD 1945).',
     points: 20
   },
   {
     id: 5,
-    category: 'Wewenang Pengadilan',
-    question: 'Lembaga peradilan yang berwenang menguji undang-undang terhadap UUD 1945 (Judicial Review) adalah...',
-    options: ['Mahkamah Agung (MA)', 'Mahkamah Konstitusi (MK)', 'Pengadilan Negeri', 'Komisi Yudisial (KY)'],
-    correctAnswer: 1,
-    explanation: 'Mahkamah Konstitusi (MK) berwenang menguji apakah suatu UU bertentangan dengan konstitusi (UUD 1945) atau tidak.',
+    category: 'Lembaga Konstitusi',
+    question: 'Lembaga negara yang berwenang menguji undang-undang terhadap UUD NRI 1945 serta memutus sengketa hasil pemilu adalah...',
+    options: ['Mahkamah Konstitusi', 'Mahkamah Agung', 'Komisi Yudisial', 'DPR RI'],
+    correctAnswer: 0,
+    explanation: 'Mahkamah Konstitusi (MK) memiliki wewenang menguji UU terhadap UUD 1945 (Pasal 24C UUD 1945).',
     points: 20
   },
   {
     id: 6,
-    category: 'Ciri Negara Hukum',
-    question: 'Manakah di bawah ini yang BUKAN merupakan ciri utama negara hukum?',
-    options: ['Adanya supremasi hukum', 'Jaminan perlindungan Hak Asasi Manusia (HAM)', 'Penguasa kebal dari segala jeratan hukum', 'Peradilan yang bebas dan tidak memihak'],
+    category: 'Hierarki Peraturan',
+    question: 'Berdasarkan UU No. 12 Tahun 2011, peraturan perundang-undangan yang menempati hierarki tertinggi di Indonesia adalah...',
+    options: ['Ketetapan MPR', 'Undang-Undang', 'UUD NRI Tahun 1945', 'Peraturan Pemerintah'],
     correctAnswer: 2,
-    explanation: 'Di negara hukum, tidak ada seorang pun yang kebal hukum. Penguasa wajib tunduk pada hukum!',
+    explanation: 'UUD NRI Tahun 1945 merupakan hukum dasar tertulis tertinggi di Negara Kesatuan Republik Indonesia.',
     points: 20
   },
   {
     id: 7,
-    category: 'Pemberantasan Korupsi',
-    question: 'Lembaga independen yang dibentuk khusus untuk mencegah dan memberantas tindak pidana korupsi di Indonesia adalah...',
-    options: ['Ombudsman RI', 'KPK (Komisi Pemberantasan Korupsi)', 'Komnas HAM', 'Lembaga Sensor Film'],
+    category: 'Penegakan Hukum',
+    question: 'Aparat penegak hukum yang memiliki wewenang utama melakukan penuntutan perkara pidana di pengadilan adalah...',
+    options: ['Kepolisian', 'Kejaksaan', 'Advokat', 'Hakim'],
     correctAnswer: 1,
-    explanation: 'KPK dibentuk dengan tugas penyelidikan, penyidikan, penuntutan, serta pencegahan korupsi di tanah air.',
+    explanation: 'Jaksa pada lembaga Kejaksaan RI bertindak sebagai penuntut umum dalam perkara pidana.',
     points: 20
   },
   {
     id: 8,
-    category: 'Norma & Sanksi',
-    question: 'Sanksi bagi pelanggar norma hukum bersifat tegas dan mengikat karena...',
-    options: ['Dibuat dan dipaksakan oleh lembaga negara yang berwenang', 'Hanya berupa rasa bersalah di dalam batin', 'Tergantung pada kesukaan ketua RT', 'Hanya berlaku saat hari libur nasional'],
-    correctAnswer: 0,
-    explanation: 'Norma hukum memiliki sanksi tegas (denda/penjara) yang dapat dipaksakan oleh aparat negara yang sah.',
+    category: 'Pemberantasan Korupsi',
+    question: 'Lembaga independen yang dibentuk secara khusus untuk mencegah dan memberantas tindak pidana korupsi adalah...',
+    options: ['BPK', 'KPK', 'Komnas HAM', 'Ombudsman'],
+    correctAnswer: 1,
+    explanation: 'Komisi Pemberantasan Korupsi (KPK) berfokus pada pencegahan dan penindakan korupsi.',
     points: 20
   },
   {
     id: 9,
-    category: 'Penerapan di Sekolah',
-    question: 'Contoh nyata ketaatan siswa terhadap hukum dan aturan di lingkungan sekolah adalah...',
-    options: ['Membawa contekan kecil saat ujian susulan', 'Membayar iuran kas tetapi dipakai untuk jajan pribadi', 'Menghormati guru, tidak merundung teman, dan hadir tepat waktu', 'Membuat coretan grafiti di meja belajar kelas'],
-    correctAnswer: 2,
-    explanation: 'Disiplin hadir, menghormati sesama, dan menjaga fasilitas sekolah adalah wujud pelajar Pancasila sadar hukum.',
+    category: 'Hak Asasi Manusia',
+    question: 'Jaminan hak asasi manusia dalam UUD NRI 1945 diatur secara komprehensif dalam pasal...',
+    options: ['Pasal 1 - Pasal 5', 'Pasal 28A - Pasal 28J', 'Pasal 33 - Pasal 34', 'Pasal 35 - Pasal 37'],
+    correctAnswer: 1,
+    explanation: 'Pasal 28A sampai dengan 28J UUD NRI 1945 memuat jaminan hak asasi manusia warga negara.',
     points: 20
   },
   {
     id: 10,
-    category: 'Hukum Digital (UU ITE)',
-    question: 'Tindakan yang melanggar hukum siber di media sosial berdasarkan UU ITE adalah...',
-    options: ['Membagikan karya gambar sendiri dengan watermark', 'Menyebarkan kabar bohong (hoaks) yang mencemarkan kehormatan orang lain', 'Mengikuti kuis edukasi online bersama teman sekelas', 'Memberikan komentar apresiasi atas prestasi teman'],
-    correctAnswer: 1,
-    explanation: 'Penyebaran hoaks dan pencemaran nama baik diatur ketat dalam UU ITE dengan ancaman sanksi pidana.',
-    points: 20
-  },
-  {
-    id: 11,
-    category: 'Pancasila & Hukum',
-    question: 'Mengapa Pancasila disebut sebagai "Sumber dari Segala Sumber Hukum Negara"?',
-    options: ['Karena semua peraturan perundang-undangan di Indonesia tidak boleh bertentangan dengan nilai-nilai Pancasila', 'Karena Pancasila hanya berlaku untuk pejabat tinggi', 'Karena Pancasila baru dibuat tahun 2020', 'Karena Pancasila tidak perlu dipelajari di sekolah'],
-    correctAnswer: 0,
-    explanation: 'Pancasila merupakan norma fundamental negara (Staatsfundamentalnorm); segala hukum di Indonesia harus dijiwai nilai ketuhanan, kemanusiaan, persatuan, kerakyatan, dan keadilan.',
-    points: 20
-  },
-  {
-    id: 12,
-    category: 'Refleksi Hukum',
-    question: 'Apa akibat yang paling mungkin terjadi jika suatu negara TIDAK memiliki hukum yang ditegakkan dengan adil?',
-    options: ['Masyarakat menjadi sangat damai dan sejahtera', 'Terjadi kekacauan (chaos), hukum rimba di mana yang kuat menindas yang lemah', 'Semua barang di toko menjadi gratis', 'Sekolah ditiadakan selamanya'],
-    correctAnswer: 1,
-    explanation: 'Tanpa hukum, berlaku hukum rimba (homo homini lupus). Kehidupan menjadi kacau dan hak warga tertindas.',
+    category: 'Budaya Hukum Siswa',
+    question: 'Perilaku nyata seorang siswa yang mencerminkan ketaatan terhadap hukum di lingkungan sekolah adalah...',
+    options: [
+      'Mencontek saat ujian jika pengawas tidak melihat',
+      'Memakai helm saat naik motor hanya jika ada polisi',
+      'Mengantre dengan tertib di kantin dan mematuhi tata tertib sekolah',
+      'Membully teman yang berbeda pendapat'
+    ],
+    correctAnswer: 2,
+    explanation: 'Tertib mengantre dan mematuhi tata tertib sekolah adalah wujud kesadaran hukum sejak dini.',
     points: 20
   }
 ];
 
-export const MYSTERY_CARDS: import('../types').MysteryCard[] = [
+// Cartoon Cases for Arena 3 (Court Trial)
+export const CARTOON_CASES: LawCase[] = [
   {
     id: 1,
-    title: 'Surat Keputusan Integritas Emas',
-    icon: '📜',
-    description: 'Kelompokmu menunjukkan kerja sama yang sangat kompak dan menjunjung etika sidang!',
-    actionText: 'Dapatkan Bonus +20 Poin Langsung!',
-    pointsDelta: 20,
-    stepsDelta: 2
+    title: 'Kasus 1: Mencontek & Integritas Akademik',
+    cartoonCharacter: 'Budi (Siswa Kelas 8)',
+    avatar: '👦',
+    location: 'Sekolah',
+    scenario: 'Budi ketahuan membawa kertas contekan saat ujian PPKn. Ia beralasan takut nilainya jelek dan dimarahi orang tua. Teman sebangkunya, Riko, ditawari contekan namun menolak.',
+    question: 'Bagaimana putusan majelis hakim peradilan kelas yang adil dan mendidik?',
+    options: [
+      {
+        text: 'Menghukum Budi dikeluarkan dari sekolah selamanya tanpa bimbingan.',
+        isFair: false,
+        explanation: 'Terlalu berat dan tidak edukatif. Sanksi sekolah harus bersifat pembinaan karakter.',
+        point: 0
+      },
+      {
+        text: 'Membatalkan nilai ujian yang dicontek, meminta Budi membuat karya tulis tentang kejujuran, dan menguji ulang secara jujur.',
+        isFair: true,
+        explanation: 'Tepat dan adil! Menegakkan aturan sekaligus memberikan kesempatan belajar memperbaiki integritas diri.',
+        point: 30
+      },
+      {
+        text: 'Membiarkan Budi karena nilainya memang perlu ditolong.',
+        isFair: false,
+        explanation: 'Salah! Membiarkan kecurangan merusak keadilan bagi teman-teman lain yang belajar dengan jujur.',
+        point: 0
+      }
+    ]
   },
   {
     id: 2,
-    title: 'Tantangan Yel-Yel Sadar Hukum',
-    icon: '📢',
-    description: 'Seluruh anggota kelompok harus menyanyikan atau menyerukan yel-yel bertema "Pelajar Taat Hukum" bersama-sama selama 15 detik!',
-    actionText: 'Jika berhasil, kelompok meraih +25 Poin dari Dewan Juri/Guru!',
-    pointsDelta: 25,
-    stepsDelta: 0,
-    isChallenge: true
+    title: 'Kasus 2: Pelanggaran Lalu Lintas Anak di Bawah Umur',
+    cartoonCharacter: 'Doni & Rangga (Pelajar SMP)',
+    avatar: '🛵',
+    location: 'Jalan Raya',
+    scenario: 'Doni yang belum memiliki SIM nekat mengendarai sepeda motor ke sekolah tanpa helm dan berboncengan tiga bersama Rangga.',
+    question: 'Apa langkah penegakan hukum lalu lintas yang tepat oleh polisi pamong?',
+    options: [
+      {
+        text: 'Memberikan teguran dan surat tilang, memanggil orang tua, serta mengamankan motor demi keselamatan jiwa Doni.',
+        isFair: true,
+        explanation: 'Tepat! Hukum lalu lintas dibuat demi keselamatan jiwa pengendara dan pengguna jalan lainnya.',
+        point: 30
+      },
+      {
+        text: 'Membiarkan Doni karena ia masih anak sekolah yang terburu-buru.',
+        isFair: false,
+        explanation: 'Berbahaya! Membiarkan pelanggaran anak di bawah umur dapat berakibat fatal kecelakaan maut.',
+        point: 0
+      },
+      {
+        text: 'Membentak Doni di depan umum dan menyita motor selamanya tanpa proses hukum sah.',
+        isFair: false,
+        explanation: 'Salah! Aparat harus menindak sesuai prosedur hukum yang beradab dan santun.',
+        point: 0
+      }
+    ]
   },
   {
     id: 3,
-    title: 'Perisai Kebal Sanksi (Safe Shield)',
-    icon: '🛡️',
-    description: 'Kelompokmu memiliki kartu perlindungan hukum! Bebas dari perosotan berikutnya.',
-    actionText: 'Kalian mendapatkan +15 Poin Keberuntungan Konstitusi!',
-    pointsDelta: 15,
-    stepsDelta: 1
-  },
-  {
-    id: 4,
-    title: 'Tantangan Sebutkan 3 Penegak Hukum',
-    icon: '⚡',
-    description: 'Perwakilan kelompok harus menyebutkan 3 lembaga penegak hukum di Indonesia dan tugasnya dalam waktu 10 detik!',
-    actionText: 'Jawab dengan tepat untuk meraih +20 Poin!',
-    pointsDelta: 20,
-    stepsDelta: 0,
-    isChallenge: true
-  },
-  {
-    id: 5,
-    title: 'Vonis Keadilan Restoratif',
-    icon: '⚖️',
-    description: 'Kalian berhasil mendamaikan sengketa antar dua pihak secara kekeluargaan dan adil!',
-    actionText: 'Maju 3 Petak ke depan & Tambah +15 Poin!',
-    pointsDelta: 15,
-    stepsDelta: 3
-  },
-  {
-    id: 6,
-    title: 'Audit Transparansi Dana',
-    icon: '🔍',
-    description: 'Kelompokmu terbukti transparan dan jujur dalam mengelola amanah kelas!',
-    actionText: 'Raih +20 Poin Integritas Bangsa!',
-    pointsDelta: 20,
-    stepsDelta: 1
-  },
-  {
-    id: 7,
-    title: 'Tantangan Bunyi Pasal 1 Ayat 3',
-    icon: '🏛️',
-    description: 'Ucapkan bunyi UUD NRI 1945 Pasal 1 Ayat 3 secara lantang dan serentak satu kelompok!',
-    actionText: '"Negara Indonesia adalah negara hukum" -> Raih +25 Poin!',
-    pointsDelta: 25,
-    stepsDelta: 0,
-    isChallenge: true
-  },
-  {
-    id: 8,
-    title: 'Angin Segar Supremasi Hukum',
-    icon: '🌪️',
-    description: 'Semua warga negara merasa aman karena hukum ditegakkan tanpa pilih kasih!',
-    actionText: 'Melangkah Maju 2 Petak & Tambah +15 Poin!',
-    pointsDelta: 15,
-    stepsDelta: 2
+    title: 'Kasus 3: Cyberbullying di Grup Chat WhatsApp Kelas',
+    cartoonCharacter: 'Siti & Grup Cyber',
+    avatar: '📱',
+    location: 'Media Sosial',
+    scenario: 'Siti membuat stiker ejekan fisik mengenai seorang teman dan menyebarkannya di grup chat hingga korban menangis dan tidak mau masuk sekolah.',
+    question: 'Bagaimana penanganan berkeadilan hukum dan kemanusiaan sesuai UU ITE dan aturan sekolah?',
+    options: [
+      {
+        text: 'Mengharuskan Siti meminta maaf secara tulus di hadapan guru BK, menghapus konten, dan memulihkan nama baik korban.',
+        isFair: true,
+        explanation: 'Bijak dan memulihkan! Mengedepankan Restorative Justice untuk membangun kesadaran menghargai martabat sesama.',
+        point: 30
+      },
+      {
+        text: 'Menyebarkan aib Siti ke seluruh media sosial sebagai balasan.',
+        isFair: false,
+        explanation: 'Kejahatan tidak boleh dibalas kejahatan; tindakan ini melanggar hukum siber.',
+        point: 0
+      },
+      {
+        text: 'Menganggapnya hanya lelucon biasa anak SMP.',
+        isFair: false,
+        explanation: 'Perundungan maya memiliki dampak psikologis serius dan melanggar hak asasi perlindungan anak.',
+        point: 0
+      }
+    ]
   }
 ];
 
 export const SORT_ITEMS: SortItem[] = [
-  {
-    id: 's1',
-    text: 'Memakai helm berstandar SNI dan memiliki SIM saat berkendara',
-    icon: '🛵',
-    category: 'taat',
-    explanation: 'Mematuhi UU Lalu Lintas demi keselamatan diri dan pengguna jalan lain.'
-  },
-  {
-    id: 's2',
-    text: 'Menerobos antrean tiket kereta api di stasiun',
-    icon: '🏃',
-    category: 'melanggar',
-    explanation: 'Melanggar norma ketertiban umum dan hak orang lain yang datang lebih awal.'
-  },
-  {
-    id: 's3',
-    text: 'Membayar pajak kendaraan bermotor tepat pada waktunya',
-    icon: '💳',
-    category: 'taat',
-    explanation: 'Kewajiban konstitusional warga negara untuk mendukung pembangunan bangsa.'
-  },
-  {
-    id: 's4',
-    text: 'Mencontek atau membawa catatan kecil saat ujian semester',
-    icon: '📝',
-    category: 'melanggar',
-    explanation: 'Melanggar tata tertib sekolah dan mencederai nilai integritas/kejujuran.'
-  },
-  {
-    id: 's5',
-    text: 'Menyeberang jalan raya melalui Zebra Cross atau Jembatan Penyeberangan Orang (JPO)',
-    icon: '🚶',
-    category: 'taat',
-    explanation: 'Memanfaatkan fasilitas keselamatan publik sesuai aturan hukum lalu lintas.'
-  },
-  {
-    id: 's6',
-    text: 'Menyebarkan kabar bohong (hoaks) yang memfitnah orang lain di medsos',
-    icon: '📱',
-    category: 'melanggar',
-    explanation: 'Pelanggaran pidana UU ITE (pencemaran nama baik dan manipulasi informasi).'
-  },
-  {
-    id: 's7',
-    text: 'Mengikuti musyawarah pemilihan ketua RT secara tertib dan rukun',
-    icon: '🤝',
-    category: 'taat',
-    explanation: 'Wujud partisipasi demokrasi dan ketaatan pada aturan musyawarah mufakat.'
-  },
-  {
-    id: 's8',
-    text: 'Membuang sampah kasur bekas ke aliran sungai',
-    icon: '🗑️',
-    category: 'melanggar',
-    explanation: 'Melanggar Perda Kebersihan & UU Lingkungan Hidup yang dapat memicu banjir.'
-  }
+  { id: 's1', text: 'Memakai helm SNI dan mematuhi rambu lalu lintas', icon: '⛑️', category: 'taat', explanation: 'Menjaga keselamatan diri dan menaati UU Lalu Lintas.' },
+  { id: 's2', text: 'Menerobos lampu merah saat jalanan terlihat sepi', icon: '🚦', category: 'melanggar', explanation: 'Melanggar asas kepatuhan hukum dan membahayakan nyawa orang lain.' },
+  { id: 's3', text: 'Mengembalikan dompet yang ditemukan kepada pihak berwenang', icon: '👛', category: 'taat', explanation: 'Wujud integritas dan kejujuran hukum.' },
+  { id: 's4', text: 'Mencontek saat ujian berlangsung', icon: '📝', category: 'melanggar', explanation: 'Kecurangan akademik yang melanggar norma kejujuran.' },
+  { id: 's5', text: 'Menghargai teman yang sedang beribadah', icon: '🤲', category: 'taat', explanation: 'Mengamalkan Pasal 29 UUD 1945 tentang kebebasan beragama.' },
+  { id: 's6', text: 'Menyebarkan kabar bohong/fitnah di media sosial', icon: '📱', category: 'melanggar', explanation: 'Melanggar UU ITE dan mencemarkan nama baik orang lain.' }
 ];
 
 export const MOTIVATIONAL_QUOTES = [
   {
-    quote: '“Hukum bukanlah sekadar pasal-pasal kaku di atas kertas, melainkan jalan untuk menghadirkan keadilan, ketertiban, dan kebahagiaan bagi seluruh rakyat.”',
-    author: 'Prof. Dr. Satjipto Rahardjo, S.H.',
+    quote: '“Hukum tidak boleh tajam ke bawah dan tumpul ke atas. Keadilan sejati lahir ketika hukum tegak melindungi yang lemah dan menindak siapa pun yang bersalah tanpa pandang bulu.”',
+    author: 'Prof. Dr. Mahfud MD',
+    role: 'Pakar Hukum Tata Negara & Mantan Ketua Mahkamah Konstitusi'
+  },
+  {
+    quote: '“Hukum bukan sekadar pasal-pasal kaku di dalam kitab undang-undang, melainkan kepekaan nurani untuk membela yang benar dan membahagiakan rakyatnya.”',
+    author: 'Prof. Satjipto Rahardjo',
     role: 'Guru Besar Hukum Progresif Indonesia'
   },
   {
-    quote: '“Kurang cerdas dapat diperbaiki dengan belajar, kurang cakap dapat dihilangkan dengan pengalaman. Namun tidak jujur itu sulit diperbaiki.”',
-    author: 'Drs. Mohammad Hatta',
-    role: 'Proklamator & Wakil Presiden RI Pertama'
+    quote: '“Di mana hukum ditegakkan dengan adil dan nurani, di sanalah martabat dan kemakmuran bangsa akan tumbuh mekar. Keadilan bukan sekadar slogan, melainkan komitmen moral yang kita wujudkan bersama setiap hari.”',
+    author: 'Mochamat Choirul Ajis, S.Pd.',
+    role: 'Mahasiswa PPG Pendidikan Pancasila'
   },
   {
-    quote: '“Bila hukum ditegakkan dengan adil tanpa tebang pilih, maka sebuah bangsa akan berdiri kokoh dan makmur. Sebaliknya, bangsa akan hancur bila hukum diperjualbelikan.”',
-    author: 'Prof. Dr. Mahfud MD, S.H., S.U.',
-    role: 'Pakar Hukum Tata Negara & Mantan Ketua MK'
-  },
-  {
-    quote: '“Pendidikan adalah tempat persemaian benih-benih kebudayaan dan budi pekerti dalam masyarakat. Pelajar yang beradab adalah pelajar yang menjunjung tinggi hukum.”',
+    quote: '“Lawan terbesar penegakan hukum bukanlah kejahatan itu sendiri, melainkan ketidakpedulian orang-orang baik untuk menegakkan kebenaran.”',
     author: 'Ki Hajar Dewantara',
     role: 'Bapak Pendidikan Nasional Indonesia'
   }
 ];
 
 export const SUMMARY_ACRONYM = [
-  { letter: 'H', word: 'Hormati Aturan & Norma', desc: 'Jadikan tata tertib dan undang-undang sebagai pemandu dalam bertutur dan bertindak.' },
-  { letter: 'U', word: 'Utamakan Keadilan & Kesetaraan', desc: 'Semua manusia memiliki martabat dan kedudukan yang sama di hadapan hukum.' },
-  { letter: 'K', word: 'Konstitusi UUD 1945 Pegangannya', desc: 'Pasal 1 Ayat (3) menegaskan kedaulatan hukum, bukan kekuasaan yang sewenang-wenang.' },
-  { letter: 'U', word: 'Upayakan Damai & Ketertiban', desc: 'Hindari main hakim sendiri; selesaikan segala masalah lewat jalan hukum yang sah.' },
-  { letter: 'M', word: 'Mulai dari Diri Sendiri Hari Ini', desc: 'Taat hukum berawal dari hal kecil: disiplin waktu, jujur saat ujian, dan bijak bermedsos.' }
+  { letter: 'H', word: 'Hormati Aturan & Norma Sosial', desc: 'Patuhi tata tertib sekolah dan hukum nasional demi ketertiban bersama.' },
+  { letter: 'U', word: 'Utamakan Keadilan & Kesetaraan', desc: 'Mewujudkan asas equality before the law, tidak membeda-bedakan status teman.' },
+  { letter: 'K', word: 'Konstitusi Pedoman Moral', desc: 'Menjadikan UUD NRI 1945 Pasal 1 Ayat (3) dan Pancasila sebagai panduan perilaku berbangsa.' },
+  { letter: 'U', word: 'Upayakan Penyelesaian Damai', desc: 'Selesaikan perselisihan melalui musyawarah mufakat dan jalur hukum yang sah.' },
+  { letter: 'M', word: 'Mulai dari Diri Sendiri', desc: 'Jadilah teladan disiplin hukum: anti-mencontek, anti-bullying, dan tertib berlalu lintas.' }
+];
+
+export const REFLECTION_QUESTIONS = [
+  {
+    id: 'q1',
+    number: 14,
+    question: 'Hal apa yang paling saya pahami dari pembelajaran materi Indonesia sebagai Negara Hukum hari ini?',
+    placeholder: 'Contoh: Saya memahami bahwa berdasarkan UUD 1945 Pasal 1 Ayat 3, Indonesia adalah negara hukum (Rechtsstaat) di mana hukum menempati kedudukan tertinggi dan semua orang sama di hadapan hukum...'
+  },
+  {
+    id: 'q2',
+    number: 15,
+    question: 'Hal apa yang masih membingungkan atau perlu saya pelajari lebih lanjut?',
+    placeholder: 'Contoh: Saya ingin mempelajari lebih dalam tentang kewenangan Mahkamah Konstitusi dibanding Mahkamah Agung dalam menguji peraturan...'
+  },
+  {
+    id: 'q3',
+    number: 16,
+    question: 'Aktivitas apa yang paling menarik bagi saya selama pembelajaran hari ini?',
+    placeholder: 'Contoh: Bermain Roda Putar Keadilan bersama 6 kelompok, menganalisis kasus detektif hukum, dan mengetuk palu sidang...'
+  },
+  {
+    id: 'q4',
+    number: 17,
+    question: 'Nilai atau sikap apa yang saya pelajari dari pembelajaran hari ini?',
+    placeholder: 'Contoh: Berani membela kebenaran, menolak kecurangan akademik/mencontek, dan menghargai hak asasi teman tanpa bullying...'
+  }
 ];

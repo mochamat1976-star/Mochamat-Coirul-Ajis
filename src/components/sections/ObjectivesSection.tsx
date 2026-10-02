@@ -6,9 +6,10 @@ import { sound, speakText, stopSpeech } from '../../utils/audio';
 interface ObjectivesSectionProps {
   onComplete: () => void;
   onNext: () => void;
+  isTeacherMode?: boolean;
 }
 
-export const ObjectivesSection: React.FC<ObjectivesSectionProps> = ({ onComplete, onNext }) => {
+export const ObjectivesSection: React.FC<ObjectivesSectionProps> = ({ onComplete, onNext, isTeacherMode }) => {
   const [checkedIds, setCheckedIds] = useState<string[]>(['obj-1', 'obj-2']);
   const [isSpeaking, setIsSpeaking] = useState<boolean>(false);
 
@@ -36,30 +37,41 @@ export const ObjectivesSection: React.FC<ObjectivesSectionProps> = ({ onComplete
       setIsSpeaking(false);
       return;
     }
-    setIsSpeaking(true);
     const text =
-      'Tujuan pembelajaran hari ini: Pertama, memahami makna Indonesia sebagai negara hukum menurut UUD 1945 Pasal 1 Ayat 3. Kedua, mengenal peran lembaga penegak hukum. Ketiga, menumbuhkan sikap taat hukum dalam kehidupan sehari-hari. Keempat, mampu membedakan perilaku adil dan memecahkan studi kasus.';
+      'Halo sahabat Pelajar Pancasila! Berikut empat tujuan pembelajaran utama kita hari ini. Pertama, memahami prinsip Indonesia sebagai Negara Hukum berdasarkan UUD 1945 Pasal 1 Ayat 3. Kedua, menelaah asas persamaan di depan hukum dan jaminan hak asasi manusia. Ketiga, mengenal peran lembaga-lembaga penegak hukum yang adil. Dan keempat, aktif berkolaborasi dalam turnamen analisis kasus kelompok selama 30 menit. Mari kita capai seluruh target belajar ini bersama-sama dengan tekun dan gembira.';
     speakText(text, () => {
       setIsSpeaking(false);
-    });
+    }, 'ramah_hangat', true);
   };
 
   return (
     <div className="space-y-8 animate-fadeIn max-w-5xl mx-auto">
       {/* Header */}
       <div className="text-center space-y-2">
-        <div className="inline-flex items-center gap-2 bg-purple-100 text-purple-800 px-3.5 py-1 rounded-full text-xs font-bold border border-purple-200">
-          <span>🎯 Bagian 4 dari 9</span>
+        <div className="inline-flex items-center gap-2 bg-red-100 text-red-900 px-3.5 py-1 rounded-full text-xs font-bold border border-red-200">
+          <span>🎯 Bagian 4 dari 10</span>
           <span>•</span>
-          <span>Capaian & Alur Pembelajaran (ATP)</span>
+          <span>Capaian & Alur Pembelajaran (ATP SMP.D.PPKn.8.2)</span>
         </div>
         <h2 className="font-display text-2xl sm:text-4xl font-extrabold text-slate-900">
           Tujuan Pembelajaran & Target Capaian
         </h2>
         <p className="text-slate-600 text-sm sm:text-base max-w-xl mx-auto">
-          Apa saja yang akan kita capai dan kuasai bersama dalam pembelajaran Indonesia Sebagai Negara Hukum hari ini?
+          Target kompetensi yang akan kita kuasai bersama dalam pembelajaran materi <strong>Indonesia Sebagai Negara Hukum</strong> hari ini.
         </p>
       </div>
+
+      {/* Teacher Mode Guide */}
+      {isTeacherMode && (
+        <div className="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-2xl shadow-sm text-sm text-amber-950 space-y-1">
+          <div className="font-bold flex items-center gap-2">
+            <span>👩‍🏫 Catatan Asesmen Diagnostik Awal & Rubrik (Mode Guru):</span>
+          </div>
+          <p className="text-xs text-amber-900 leading-relaxed">
+            Guru memastikan pemahaman siswa terhadap 4 indikator utama: 2 ranah kognitif (UUD NRI 1945 Pasal 1 Ayat 3 Rechtsstaat vs Machtsstaat & ciri negara hukum), 1 ranah afektif (sikap adil dan integritas anti-perundungan), serta 1 ranah psikomotorik (kolaborasi turnamen 6 kelompok). Setelah tahap ini, arahkan kelas ke kegiatan <strong>Ice Breaking Game: "Uji Fokus Hakim Pancasila"</strong> untuk membakar semangat dan konsentrasi belajar.
+          </p>
+        </div>
+      )}
 
       {/* Profil Pelajar Pancasila Banner */}
       <div className="bg-gradient-to-r from-purple-700 via-indigo-700 to-blue-700 rounded-3xl p-6 text-white shadow-md flex flex-col md:flex-row items-center justify-between gap-6">
@@ -184,9 +196,9 @@ export const ObjectivesSection: React.FC<ObjectivesSectionProps> = ({ onComplete
               onComplete();
               onNext();
             }}
-            className="w-full sm:w-auto px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-2xl font-bold text-sm sm:text-base shadow-md hover:shadow-lg transition flex items-center justify-center gap-2 cursor-pointer"
+            className="w-full sm:w-auto px-6 py-3.5 bg-red-600 hover:bg-red-700 text-white rounded-2xl font-bold text-sm sm:text-base shadow-md hover:shadow-lg transition flex items-center justify-center gap-2 cursor-pointer"
           >
-            <span>Lanjut ke Apersepsi Kontekstual</span>
+            <span>Lanjut ke Tahap 5: Ice Breaking (Uji Fokus)</span>
             <ArrowRight className="w-4 h-4" />
           </button>
         </div>

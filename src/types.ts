@@ -1,4 +1,6 @@
-export type SectionId = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
+export type SectionId = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
+
+export type AppMode = 'student' | 'teacher';
 
 export interface AttendanceRecord {
   id: string;
@@ -116,4 +118,26 @@ export interface MysteryCard {
   pointsDelta: number;
   stepsDelta: number;
   isChallenge?: boolean;
+}
+
+export interface WheelSegment {
+  id: number;
+  label: string;
+  icon: string;
+  color: string;
+  points: number;
+  type: 'case' | 'constitution' | 'court' | 'institution' | 'quick' | 'protection' | 'surprise' | 'grand';
+}
+
+export interface WheelChallenge {
+  id: number;
+  segmentId: number;
+  title: string;
+  category: string;
+  scenario: string;
+  question: string;
+  options: string[];
+  correctIndex: number;
+  explanation: string;
+  rewardPoints: number;
 }

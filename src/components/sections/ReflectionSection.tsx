@@ -1,31 +1,41 @@
 import React, { useState } from 'react';
-import { Star, Award, CheckCircle2, ArrowRight, Heart, Sparkles, BookOpen, Send } from 'lucide-react';
+import { Star, Award, CheckCircle2, ArrowRight, Heart, Sparkles, BookOpen, Send, MessageSquare } from 'lucide-react';
 import { sound } from '../../utils/audio';
 import { CertificateModal } from '../CertificateModal';
+import { REFLECTION_QUESTIONS, MODULE_INFO } from '../../data/materialData';
 import confetti from 'canvas-confetti';
+import { saveStudentSubmission } from '../../services/studentSubmissionStore';
 
 interface ReflectionSectionProps {
   onComplete: () => void;
   onNext: () => void;
   studentName: string;
   studentClass: string;
+  isTeacherMode?: boolean;
 }
 
 export const ReflectionSection: React.FC<ReflectionSectionProps> = ({
   onComplete,
   onNext,
   studentName,
-  studentClass
+  studentClass,
+  isTeacherMode
 }) => {
   const [rating, setRating] = useState<number>(5);
-  const [learnings, setLearnings] = useState<string>(
-    '1. Makna UUD 1945 Pasal 1 Ayat 3.\n2. Lima pilar negara hukum Indonesia.\n3. Pentingnya lembaga penegak hukum yang adil.'
+  const [q1, setQ1] = useState<string>(
+    'Saya memahami bahwa Indonesia adalah negara hukum (Rechtsstaat) berdasarkan Pasal 1 ayat 3 UUD 1945, di mana hukum adalah panglima tertinggi dan semua orang setara di hadapan hukum (equality before the law).'
   );
-  const [favorites, setFavorites] = useState<string>(
-    '1. Game visual Hakim Cilik saat memecahkan kasus perundungan dan lalu lintas.\n2. Visual piramida hierarki undang-undang.'
+  const [q2, setQ2] = useState<string>(
+    'Saya ingin memperdalam bagaimana proses pengujian undang-undang di Mahkamah Konstitusi serta peran aparat penegak hukum dalam mewujudkan keadilan tanpa pandang bulu.'
+  );
+  const [q3, setQ3] = useState<string>(
+    'Turnamen 6 kelompok selama 30 menit (Arena Roda Putar Keadilan, Cepat Tepat Bel, dan Sidang Kasus LKPD) serta game refleks Uji Fokus Hakim Pancasila.'
+  );
+  const [q4, setQ4] = useState<string>(
+    'Nilai integritas, kejujuran akademik (anti-mencontek), keberanian menolak perundungan (bullying), serta budaya tertib aturan dalam kehidupan sehari-hari.'
   );
   const [commitment, setCommitment] = useState<string>(
-    'Saya berjanji akan selalu memakai helm saat naik motor, tidak mencontek saat ujian, dan bijak dalam bermedia sosial tanpa menyebarkan fitnah.'
+    'Saya berjanji akan menjunjung tinggi supremasi hukum, taat tata tertib sekolah, bersikap adil kepada semua teman, dan menjadi Pelajar Pancasila yang berintegritas.'
   );
 
   const [isSaved, setIsSaved] = useState<boolean>(false);
@@ -37,6 +47,20 @@ export const ReflectionSection: React.FC<ReflectionSectionProps> = ({
     try {
       confetti({ particleCount: 60, spread: 70, origin: { y: 0.6 } });
     } catch {}
+
+    saveStudentSubmission(studentName || 'Peserta Didik Aktif', studentClass || 'Kelas VIII-A', prev => ({
+      ...prev,
+      reflection: {
+        q1Understand: q1,
+        q2Question: q2,
+        q3FavoriteActivity: q3,
+        q4MoralValue: q4,
+        commitment,
+        starRating: rating,
+        timestamp: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })
+      }
+    }));
+
     setIsSaved(true);
     onComplete();
   };
@@ -45,27 +69,38 @@ export const ReflectionSection: React.FC<ReflectionSectionProps> = ({
     <div className="space-y-8 animate-fadeIn max-w-4xl mx-auto">
       {/* Header */}
       <div className="text-center space-y-2">
-        <div className="inline-flex items-center gap-2 bg-indigo-100 text-indigo-900 px-3.5 py-1 rounded-full text-xs font-bold border border-indigo-200">
-          <span>✍️ Bagian 8 dari 9</span>
+        <div className="inline-flex items-center gap-2 bg-red-100 text-red-900 px-3.5 py-1 rounded-full text-xs font-bold border border-red-200">
+          <span>✍️ Bagian 9 dari 10</span>
           <span>•</span>
-          <span>Refleksi Belajar & Komitmen Diri</span>
+          <span>Lembar Refleksi Peserta Didik (Bab VI.A RPM)</span>
         </div>
         <h2 className="font-display text-2xl sm:text-4xl font-extrabold text-slate-900">
-          Refleksi Model 3-2-1
+          Refleksi Pembelajaran Bermakna
         </h2>
         <p className="text-slate-600 text-sm sm:text-base max-w-xl mx-auto">
-          Belajar hukum yang sejati adalah ketika nilai-nilai keadilan tersebut terpatri dalam hati dan menjelma menjadi tindakan nyata sehari-hari.
+          Ungkapkan apa yang telah kamu pahami, hal yang menarik, serta ikrar pribadimu sebagai generasi penjaga keutuhan NKRI.
         </p>
       </div>
 
-      {/* Main Card */}
-      <div className="bg-white rounded-3xl border border-slate-200 shadow-md p-6 sm:p-10 space-y-8">
-        {/* Rating Meter */}
-        <div className="bg-gradient-to-r from-indigo-50 to-purple-50 p-6 rounded-2xl border border-indigo-100 text-center space-y-3">
-          <span className="text-xs font-bold uppercase tracking-wider text-indigo-700">
-            Tingkat Kepuasan & Pemahaman Materi Hari Ini
-          </span>
-          <div className="flex justify-center items-center gap-2">
+      {/* Teacher Mode Guide */}
+      {isTeacherMode && (
+        <div className="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-2xl shadow-sm text-sm text-amber-950 space-y-1">
+          <div className="font-bold flex items-center gap-2">
+            <span>👩‍🏫 Catatan Asesmen Reflektif Guru (Sintaks Evaluasi Pembelajaran):</span>
+          </div>
+          <p className="text-xs text-amber-900 leading-relaxed">
+            Perhatikan pengisian 4 butir pertanyaan refleksi dan komitmen moral siswa. Nilai komitmen siswa akan langsung tercetak pada Piagam Penghargaan Duta NKRI. Di dalam modal piagam penghargaan terdapat tombol <strong>"Keluar & Lanjut ke Tahap 10"</strong> untuk membawa siswa atau guru langsung ke sesi kesimpulan akhir.
+          </p>
+        </div>
+      )}
+
+      <form onSubmit={handleSaveReflection} className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-10 shadow-sm space-y-8">
+        {/* Rating Self-Assessment */}
+        <div className="text-center space-y-3 pb-6 border-b border-slate-100">
+          <label className="font-display font-bold text-base text-slate-800 block">
+            Tingkat Kepuasan & Pemahaman Diri Hari Ini:
+          </label>
+          <div className="flex items-center justify-center gap-2">
             {[1, 2, 3, 4, 5].map((star) => (
               <button
                 key={star}
@@ -74,130 +109,149 @@ export const ReflectionSection: React.FC<ReflectionSectionProps> = ({
                   sound.playClick();
                   setRating(star);
                 }}
-                className="p-1 transition-transform hover:scale-125 cursor-pointer"
+                className="p-1.5 transition transform hover:scale-125 cursor-pointer"
               >
                 <Star
-                  className={`w-8 h-8 sm:w-10 sm:h-10 ${
+                  className={`w-8 h-8 sm:w-10 sm:h-10 transition-colors ${
                     star <= rating
-                      ? 'text-amber-400 fill-amber-400 drop-shadow-sm'
+                      ? 'text-amber-400 fill-amber-400 drop-shadow'
                       : 'text-slate-300'
                   }`}
                 />
               </button>
             ))}
           </div>
-          <div className="text-xs font-bold text-slate-700">
-            {rating === 5 && '⭐⭐⭐⭐⭐ Sangat Paham & Sangat Menyenangkan!'}
-            {rating === 4 && '⭐⭐⭐⭐ Paham dengan Baik & Seru!'}
-            {rating === 3 && '⭐⭐⭐ Cukup Paham, Perlu Latihan Tambahan'}
-            {rating < 3 && 'Perlu Membaca Ulang Materi'}
-          </div>
+          <p className="text-xs text-slate-500 font-semibold">
+            {rating === 5 && '🌟 Sangat Paham, Bersemangat, dan Menjiwai Nilai Persatuan!'}
+            {rating === 4 && '😊 Paham dengan Baik dan Menyenangkan.'}
+            {rating === 3 && '🙂 Cukup Paham, Perlu Tambahan Latihan.'}
+            {rating <= 2 && '🧐 Masih Perlu Bimbingan Guru.'}
+          </p>
         </div>
 
-        {/* 3-2-1 Form */}
-        <form onSubmit={handleSaveReflection} className="space-y-6">
-          {/* 3 Learnings */}
+        {/* 4 Standard Reflection Prompts (Bab VI.A of RPM) */}
+        <div className="space-y-6">
           <div className="space-y-2">
-            <label className="block text-xs font-extrabold text-slate-700 uppercase tracking-wider">
-              3 Hal Baru yang Kupahami Hari Ini:
+            <label className="font-display font-bold text-sm text-slate-900 flex items-center gap-2">
+              <span className="w-6 h-6 rounded-lg bg-red-100 text-red-800 text-xs font-black flex items-center justify-center shrink-0">1</span>
+              <span>Hal apa yang paling saya pahami dari pembelajaran hari ini?</span>
             </label>
             <textarea
               rows={3}
+              value={q1}
+              onChange={(e) => setQ1(e.target.value)}
+              className="w-full px-4 py-3 rounded-2xl border border-slate-200 focus:border-red-500 focus:ring-2 focus:ring-red-200 text-xs sm:text-sm text-slate-800 leading-relaxed font-medium transition"
+              placeholder="Tuliskan pemahaman utamamu..."
               required
-              value={learnings}
-              onChange={(e) => setLearnings(e.target.value)}
-              placeholder="1. ... 2. ... 3. ..."
-              className="w-full px-4 py-3 rounded-2xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-xs sm:text-sm text-slate-800 leading-relaxed"
             />
           </div>
 
-          {/* 2 Favorites */}
           <div className="space-y-2">
-            <label className="block text-xs font-extrabold text-slate-700 uppercase tracking-wider">
-              2 Hal yang Paling Berkesan / Menarik Bagiku:
+            <label className="font-display font-bold text-sm text-slate-900 flex items-center gap-2">
+              <span className="w-6 h-6 rounded-lg bg-amber-100 text-amber-800 text-xs font-black flex items-center justify-center shrink-0">2</span>
+              <span>Hal apa yang masih membingungkan atau perlu saya pelajari lebih lanjut?</span>
             </label>
             <textarea
               rows={2}
+              value={q2}
+              onChange={(e) => setQ2(e.target.value)}
+              className="w-full px-4 py-3 rounded-2xl border border-slate-200 focus:border-red-500 focus:ring-2 focus:ring-red-200 text-xs sm:text-sm text-slate-800 leading-relaxed font-medium transition"
+              placeholder="Tuliskan pertanyaan atau rasa penasaranmu..."
               required
-              value={favorites}
-              onChange={(e) => setFavorites(e.target.value)}
-              placeholder="1. ... 2. ..."
-              className="w-full px-4 py-3 rounded-2xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-xs sm:text-sm text-slate-800 leading-relaxed"
             />
           </div>
 
-          {/* 1 Commitment */}
           <div className="space-y-2">
-            <label className="block text-xs font-extrabold text-red-600 uppercase tracking-wider flex items-center gap-1.5">
-              <Heart className="w-4 h-4 text-red-500 fill-red-500" />
-              1 Komitmen Nyata Taat Hukum yang Akan Kulakukan Mulai Hari Ini:
+            <label className="font-display font-bold text-sm text-slate-900 flex items-center gap-2">
+              <span className="w-6 h-6 rounded-lg bg-emerald-100 text-emerald-800 text-xs font-black flex items-center justify-center shrink-0">3</span>
+              <span>Aktivitas apa yang paling menarik bagi saya selama pembelajaran hari ini?</span>
             </label>
             <textarea
               rows={2}
+              value={q3}
+              onChange={(e) => setQ3(e.target.value)}
+              className="w-full px-4 py-3 rounded-2xl border border-slate-200 focus:border-red-500 focus:ring-2 focus:ring-red-200 text-xs sm:text-sm text-slate-800 leading-relaxed font-medium transition"
+              placeholder="Contoh: Turnamen Roda Putar Keadilan, bel rebutan, atau game refleks Uji Fokus Hakim..."
               required
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label className="font-display font-bold text-sm text-slate-900 flex items-center gap-2">
+              <span className="w-6 h-6 rounded-lg bg-purple-100 text-purple-800 text-xs font-black flex items-center justify-center shrink-0">4</span>
+              <span>Nilai atau sikap apa yang saya pelajari dari pembelajaran hari ini?</span>
+            </label>
+            <textarea
+              rows={2}
+              value={q4}
+              onChange={(e) => setQ4(e.target.value)}
+              className="w-full px-4 py-3 rounded-2xl border border-slate-200 focus:border-red-500 focus:ring-2 focus:ring-red-200 text-xs sm:text-sm text-slate-800 leading-relaxed font-medium transition"
+              placeholder="Contoh: Toleransi, gotong royong, menyaring informasi..."
+              required
+            />
+          </div>
+
+          {/* Personal Commitment Box for Certificate */}
+          <div className="space-y-2 pt-2">
+            <label className="font-display font-bold text-sm text-red-900 flex items-center gap-2">
+              <Heart className="w-4 h-4 text-red-600 fill-current" />
+              <span>Ikrar Komitmen Pribadi (Akan Tercetak pada Piagam):</span>
+            </label>
+            <textarea
+              rows={3}
               value={commitment}
               onChange={(e) => setCommitment(e.target.value)}
-              placeholder="Tuliskan komitmen konkritmu sebagai pelajar taat hukum..."
-              className="w-full px-4 py-3 rounded-2xl border-2 border-red-200 focus:outline-none focus:ring-2 focus:ring-red-500 text-xs sm:text-sm font-semibold text-slate-900 leading-relaxed bg-red-50/30"
+              className="w-full px-4 py-3 rounded-2xl border-2 border-red-300 bg-red-50/40 focus:border-red-600 focus:ring-2 focus:ring-red-200 text-xs sm:text-sm text-red-950 font-semibold leading-relaxed transition"
+              placeholder="Tuliskan janjimu menjaga persatuan bangsa..."
+              required
             />
           </div>
+        </div>
 
-          {/* Save Button */}
+        {/* Action Buttons */}
+        <div className="pt-6 border-t border-slate-100 flex flex-wrap items-center justify-between gap-4">
           <button
             type="submit"
-            className="w-full py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl font-display font-bold text-sm sm:text-base shadow-md hover:shadow-lg transition flex items-center justify-center gap-2 cursor-pointer"
+            className="px-6 py-3.5 bg-red-600 hover:bg-red-700 text-white rounded-2xl font-bold text-sm shadow-md hover:shadow-lg transition flex items-center gap-2 cursor-pointer"
           >
             <Send className="w-4 h-4" />
-            <span>Simpan Lembar Refleksi Diri</span>
+            <span>Simpan Jurnal Refleksi</span>
           </button>
-        </form>
 
-        {/* Certificate Callout */}
-        <div className="bg-gradient-to-r from-amber-500 to-amber-600 text-white p-6 rounded-3xl shadow-lg flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="space-y-1 text-center sm:text-left">
-            <span className="text-xs font-black uppercase text-amber-200 tracking-wider">
-              Hadiah Capaian Siswa
-            </span>
-            <h4 className="font-display font-bold text-lg text-white">
-              Piagam Duta Pelajar Sadar Hukum
-            </h4>
-            <p className="text-xs text-amber-100 max-w-md">
-              Klaim dan cetak sertifikat resmi atas komitmenmu hari ini untuk dipajang di kelas atau portofolio belajarmu!
-            </p>
+          <div className="flex flex-wrap items-center gap-3">
+            <button
+              type="button"
+              onClick={() => {
+                sound.playClick();
+                setIsCertificateOpen(true);
+              }}
+              className="px-5 py-3.5 bg-amber-400 hover:bg-amber-300 text-slate-900 rounded-2xl font-bold text-sm shadow-md transition flex items-center gap-2 cursor-pointer"
+            >
+              <Award className="w-4 h-4" />
+              <span>Buka Piagam Duta NKRI</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => {
+                sound.playSuccess();
+                onComplete();
+                onNext();
+              }}
+              className="px-6 py-3.5 bg-slate-900 hover:bg-slate-800 text-white rounded-2xl font-bold text-sm shadow-md transition flex items-center gap-2 cursor-pointer"
+            >
+              <span>Lanjut ke Tahap 10: Kesimpulan & Motivasi</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
           </div>
-
-          <button
-            onClick={() => {
-              sound.playSuccess();
-              setIsCertificateOpen(true);
-            }}
-            className="px-5 py-3 bg-white text-slate-900 rounded-2xl font-display font-bold text-xs sm:text-sm shadow-md hover:shadow-xl transition flex items-center gap-2 cursor-pointer whitespace-nowrap"
-          >
-            <Award className="w-4 h-4 text-amber-600" />
-            <span>Buka Piagam Penghargaan</span>
-          </button>
         </div>
+      </form>
 
-        {/* Next to Conclusion */}
-        <div className="pt-4 border-t border-slate-100 flex justify-end">
-          <button
-            onClick={() => {
-              sound.playSuccess();
-              onComplete();
-              onNext();
-            }}
-            className="px-6 py-3 bg-red-600 hover:bg-red-700 text-white rounded-2xl font-bold text-sm sm:text-base shadow-md hover:shadow-lg transition flex items-center gap-2 cursor-pointer"
-          >
-            <span>Lanjut ke Kesimpulan & Motivasi Siswa</span>
-            <ArrowRight className="w-4 h-4" />
-          </button>
-        </div>
-      </div>
-
-      {/* Modal Popup Certificate */}
+      {/* Certificate Modal with onNextSection passed to allow exiting to next section */}
       <CertificateModal
         isOpen={isCertificateOpen}
         onClose={() => setIsCertificateOpen(false)}
+        onNextSection={onNext}
         studentName={studentName}
         studentClass={studentClass}
         commitment={commitment}
